@@ -14,8 +14,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang='en'>
-      <body className='overflow-clip'>
-        <ThemeRegistry options={{ key: 'joy' }}>{children}</ThemeRegistry>
+      <body>
+        <ThemeRegistry>{children}</ThemeRegistry>
       </body>
     </html>
   )
