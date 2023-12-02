@@ -11,8 +11,6 @@ export type State =
       status: 'invoking'
     }
   | {
-      renderId: string
-      bucketName: string
       progress: number
       status: 'rendering'
     }
@@ -22,9 +20,8 @@ export type State =
       error: Error
     }
   | {
-      url: string
-      size: number
       status: 'done'
+      message: string
     }
 
 export const useImageRendering = (
@@ -40,11 +37,10 @@ export const useImageRendering = (
       status: 'invoking',
     })
     try {
-      const { sizeInBytes, url } = await renderImage({ id, inputProps })
+      const { message } = await renderImage({ id, inputProps })
       setState({
         status: 'done',
-        size: sizeInBytes,
-        url: url,
+        message,
       })
     } catch (err) {
       setState({

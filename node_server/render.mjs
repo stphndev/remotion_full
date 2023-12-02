@@ -1,65 +1,63 @@
-import { renderMedia, selectComposition, renderStill } from '@remotion/renderer'
-// import {
-//   defaultImageCompProps,
-//   defaultVideoCompProps,
-//   IMAGE_COMP_NAME,
-//   VIDEO_COMP_NAME,
-// } from '../types/constants'
+import express from 'express'
+import cors from 'cors'
+import bodyParser from 'body-parser'
+import { renderStill, selectComposition, renderMedia } from '@remotion/renderer'
 import myBundle from '../bundle.mjs'
 
-const VIDEO_COMP_NAME = 'MyComponent'
-const IMAGE_COMP_NAME = 'OnlyImage'
-const defaultVideoCompProps = {
-  titleTexts: [
-    'Balancer Exploit Results in $900K stolen from LPs',
-    'The Team warned about the bug 5 days prior',
-    'Record 1 million ETH burned since the start of this year',
-    'Uniswap fees alone made for 50% of the burn',
-    'Grayscale wins against the sec in court',
-  ],
-  titleColor: '#ffff',
-  pageHeading: 'Remotion Video',
-}
+const PORT = 3000
 
-const defaultImageCompProps = {
-  titleTexts: `Ethereum price shakeup predicted amid Merge confusion Cryptocurrency 
-  has doubled in value since mid June ahead of momentous event`,
-  titleColor: '#000',
-  pageHeading: 'Remotion Image',
-}
+const app = express()
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: false }))
 
-// You only have to create a bundle once, and you may reuse it
+app.use(cors())
 const bundleLocation = myBundle
 
-// Get the composition you want to render. Pass `inputProps` if you
-// want to customize the duration or other metadata.
-const composition1 = await selectComposition({
-  serveUrl: bundleLocation,
-  id: VIDEO_COMP_NAME,
-  inputProps: defaultVideoCompProps,
+app.post('/api/image', async (req, res) => {
+  const { id, inputProps } = req.body
+
+  const composition = await selectComposition({
+    serveUrl: bundleLocation,
+    id,
+    inputProps,
+  })
+
+  await renderStill({
+    composition: composition,
+    serveUrl: bundleLocation,
+    output: `out/${id}.png`,
+    inputProps,
+  })
+
+  res.send({ message: 'Render done' })
 })
 
-const composition2 = await selectComposition({
-  serveUrl: bundleLocation,
-  id: IMAGE_COMP_NAME,
-  inputProps: defaultImageCompProps,
+app.post('/api/video', async (req, res) => {
+  const { id, inputProps } = req.body
+
+  const composition = await selectComposition({
+    serveUrl: bundleLocation,
+    id,
+    inputProps,
+  })
+
+  const onProgress = ({ progress }) => {
+    console.log(`Rendering is ${progress * 100}% complete`)
+    res.write(`${progress * 100}`)
+  }
+  await renderMedia({
+    composition: composition,
+    serveUrl: bundleLocation,
+    codec: 'h264',
+    outputLocation: `out/${id}.mp4`,
+    inputProps,
+    onProgress,
+  })
+
+  res.json({ message: 'Render done' })
+  res.end()
 })
 
-// Render the video. Pass the same `inputProps` again
-// if your video is parametrized with data.
-await renderMedia({
-  composition: composition1,
-  serveUrl: bundleLocation,
-  codec: 'h264',
-  outputLocation: `out/${VIDEO_COMP_NAME}.mp4`,
-  inputProps: defaultVideoCompProps,
+app.listen(PORT, () => {
+  console.log(`Server started on http://localhost:${PORT}`)
 })
-
-await renderStill({
-  composition: composition2,
-  serveUrl: bundleLocation,
-  output: `out/${IMAGE_COMP_NAME}.png`,
-  inputProps: defaultImageCompProps,
-})
-
-console.log('Render done!')

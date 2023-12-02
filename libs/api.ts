@@ -1,21 +1,12 @@
 import { z } from 'zod'
-import type {
-  RenderMediaOnLambdaOutput,
-  RenderStillOnLambdaOutput,
-} from '@remotion/lambda/client'
 import {
   ProgressRequest,
-  ProgressResponse,
   RenderImageRequest,
   RenderVideoRequest,
 } from './types/schema'
 import { imageCompSchema, videoCompSchema } from './types/constants'
-import { ApiResponse } from './helpers/api-response'
 
-const makeRequest = async <Res>(
-  endpoint: string,
-  body: unknown
-): Promise<Res> => {
+const makeRequest = async (endpoint: string, body: unknown) => {
   const result = await fetch(endpoint, {
     method: 'post',
     body: JSON.stringify(body),
@@ -23,12 +14,11 @@ const makeRequest = async <Res>(
       'content-type': 'application/json',
     },
   })
-  const json = (await result.json()) as ApiResponse<Res>
+  const json = await result.json()
   if (json.type === 'error') {
     throw new Error(json.message)
   }
-
-  return json.data
+  return json
 }
 
 export const renderNewVideo = async ({
@@ -43,7 +33,7 @@ export const renderNewVideo = async ({
     inputProps,
   }
 
-  return makeRequest<RenderMediaOnLambdaOutput>('/api/lambda/video', body)
+  return makeRequest('/api/video', body)
 }
 
 export const renderImage = async ({
@@ -58,7 +48,7 @@ export const renderImage = async ({
     inputProps,
   }
 
-  return makeRequest<RenderStillOnLambdaOutput>('/api/lambda/image', body)
+  return makeRequest('/api/image', body)
 }
 
 export const getProgress = async ({
@@ -73,5 +63,5 @@ export const getProgress = async ({
     bucketName,
   }
 
-  return makeRequest<ProgressResponse>('/api/lambda/progress', body)
+  return makeRequest('/api/lambda/progress', body)
 }

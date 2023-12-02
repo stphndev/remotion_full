@@ -11,8 +11,6 @@ export type State =
       status: 'invoking'
     }
   | {
-      renderId: string
-      bucketName: string
       progress: number
       status: 'rendering'
     }
@@ -22,8 +20,7 @@ export type State =
       error: Error
     }
   | {
-      url: string
-      size: number
+      message: string
       status: 'done'
     }
 
@@ -48,51 +45,49 @@ export const useVideoRendering = (
       status: 'invoking',
     })
     try {
-      const { renderId, bucketName } = await renderNewVideo({ id, inputProps })
+      const { message } = await renderNewVideo({ id, inputProps })
       setState({
-        status: 'rendering',
-        progress: 0,
-        renderId: renderId,
-        bucketName: bucketName,
+        status: 'done',
+        message,
       })
 
-      let pending = true
+      // let pending = true
 
-      while (pending) {
-        const result = await getProgress({
-          id: renderId,
-          bucketName: bucketName,
-        })
-        switch (result.type) {
-          case 'error': {
-            setState({
-              status: 'error',
-              renderId: renderId,
-              error: new Error(result.message),
-            })
-            pending = false
-            break
-          }
-          case 'done': {
-            setState({
-              size: result.size,
-              url: result.url,
-              status: 'done',
-            })
-            pending = false
-            break
-          }
-          case 'progress': {
-            setState({
-              status: 'rendering',
-              bucketName: bucketName,
-              progress: result.progress,
-              renderId: renderId,
-            })
-            await wait(1000)
-          }
-        }
-      }
+      // while (pending) {
+      //   const result = await getProgress({
+      //     id: renderId,
+      //     bucketName: bucketName,
+      //   })
+      //   switch (result.type) {
+      //     case 'error': {
+      //       setState({
+      //         status: 'error',
+      //         renderId: renderId,
+      //         error: new Error(result.message),
+      //       })
+      //       pending = false
+      //       break
+      //     }
+      //     case 'done': {
+      //       setState({
+      //         size: result.size,
+      //         url: result.url,
+      //         status: 'done',
+      //       })
+      //       pending = false
+      //       break
+      //     }
+      //     case 'progress': {
+      //       setState({
+      //         status: 'rendering',
+      //         // bucketName: bucketName,
+      //         progress: result.progress,
+      //         // renderId: renderId,
+      //       })
+      //       await wait(1000)
+      //     }
+      //   }
+      // }
     } catch (err) {
       setState({
         status: 'error',

@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "remotion": "remotion studio",
+    "remotion": "remotion studio react/index.ts",
     "render": "remotion render",
     "deploy": "node deploy.mjs",
     "node-render": "node node_server/render.mjs"
@@ -24,6 +24,9 @@
     "@remotion/player": "^4.0.19",
     "@remotion/transitions": "^4.0.74",
     "@remotion/zod-types": "^4.0.74",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
     "next": "14.0.2",
     "react": "^18",
     "react-color-palette": "^7.1.0",

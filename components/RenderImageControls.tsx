@@ -76,15 +76,10 @@ export const RenderImageControls: React.FC<{
           ) : null}
         </div>
       ) : null}
-      {state.status === 'rendering' || state.status === 'done' ? (
+      {state.status === 'done' ? (
         <>
-          <ProgressBar
-            progress={state.status === 'rendering' ? state.progress : 1}
-          />
-          <Spacing></Spacing>
-          <AlignEnd>
-            <DownloadButton undo={undo} state={state}></DownloadButton>
-          </AlignEnd>
+          <p>{state.message}</p>
+          <p>Access Image in (out) folder</p>
         </>
       ) : null}
     </InputContainer>
