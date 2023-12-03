@@ -43,7 +43,6 @@ app.post('/api/video', async (req, res) => {
 
   const onProgress = ({ progress }) => {
     console.log(`Rendering is ${progress * 100}% complete`)
-    res.write(`${progress * 100}`)
   }
   await renderMedia({
     composition: composition,
@@ -55,7 +54,6 @@ app.post('/api/video', async (req, res) => {
   })
 
   res.json({ message: 'Render done' })
-  res.end()
 })
 
 app.listen(PORT, () => {
