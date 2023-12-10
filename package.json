@@ -1,45 +1,43 @@
 {
-  "name": "remotion_full",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
-    "remotion": "remotion studio react/index.ts",
-    "render": "remotion render",
-    "deploy": "node deploy.mjs",
-    "node-render": "node node_server/render.mjs"
-  },
-  "dependencies": {
-    "@emotion/react": "^11.11.1",
-    "@emotion/styled": "^11.11.0",
-    "@mui/icons-material": "^5.14.16",
-    "@mui/joy": "^5.0.0-beta.14",
-    "@mui/material": "^5.14.17",
-    "@remotion/bundler": "^4.0.19",
-    "@remotion/cli": "^4.0.19",
-    "@remotion/lambda": "^4.0.19",
-    "@remotion/player": "^4.0.19",
-    "@remotion/transitions": "^4.0.74",
-    "@remotion/zod-types": "^4.0.74",
-    "body-parser": "^1.20.2",
-    "cors": "^2.8.5",
-    "express": "^4.18.2",
-    "next": "14.0.2",
-    "react": "^18",
-    "react-color-palette": "^7.1.0",
-    "react-dom": "^18",
-    "remotion": "^4.0.19",
-    "zod": "^3.21.4"
-  },
-  "devDependencies": {
-    "@biomejs/biome": "^1.3.3",
-    "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
-    "dotenv": "^16.0.3",
-    "typescript": "^5"
-  }
+    "name": "remotion_full",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "dev": "next dev && node remotion/render/server.mjs",
+        "build": "next build",
+        "start": "next start",
+        "lint": "next lint",
+        "studio": "remotion studio remotion/bundle/index.ts",
+        "remotion": "node remotion/render/server.mjs"
+    },
+    "dependencies": {
+        "@emotion/react": "^11.11.1",
+        "@emotion/styled": "^11.11.0",
+        "@mui/icons-material": "^5.14.16",
+        "@mui/joy": "^5.0.0-beta.14",
+        "@mui/material": "^5.14.17",
+        "@remotion/bundler": "^4.0.19",
+        "@remotion/cli": "^4.0.19",
+        "@remotion/lambda": "^4.0.19",
+        "@remotion/player": "^4.0.19",
+        "@remotion/transitions": "^4.0.74",
+        "@remotion/zod-types": "^4.0.74",
+        "body-parser": "^1.20.2",
+        "cors": "^2.8.5",
+        "express": "^4.18.2",
+        "next": "14.0.2",
+        "react": "^18",
+        "react-color-palette": "^7.1.0",
+        "react-dom": "^18",
+        "remotion": "^4.0.19",
+        "zod": "^3.21.4"
+    },
+    "devDependencies": {
+        "@biomejs/biome": "^1.3.3",
+        "@types/node": "^20",
+        "@types/react": "^18",
+        "@types/react-dom": "^18",
+        "dotenv": "^16.0.3",
+        "typescript": "^5"
+    }
 }
