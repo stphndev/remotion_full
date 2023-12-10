@@ -18,6 +18,7 @@ const makeRequest = async (endpoint: string, body: unknown) => {
   if (json.type === 'error') {
     throw new Error(json.message)
   }
+  console.log(json)
   return json
 }
 

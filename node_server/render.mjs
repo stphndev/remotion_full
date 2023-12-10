@@ -22,14 +22,14 @@ app.post('/api/image', async (req, res) => {
     inputProps,
   })
 
-  await renderStill({
+  const result = await renderStill({
     composition: composition,
     serveUrl: bundleLocation,
-    output: `out/${id}.png`,
+    // output: `out/${id}.png`,
     inputProps,
   })
 
-  res.send({ message: 'Render done' })
+  res.send({ message: 'Render done', result })
 })
 
 app.post('/api/video', async (req, res) => {

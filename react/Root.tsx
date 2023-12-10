@@ -13,6 +13,7 @@ import {
 } from '../libs/types/constants'
 import { VideoComp } from './MyComp/Video/VideoComp'
 import { ImageComp } from './MyComp/Image/ImageComp'
+import { Main } from './MyComp/Video2/Main'
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -34,6 +35,14 @@ export const RemotionRoot: React.FC = () => {
         height={HEIGHT}
         schema={imageCompSchema}
         defaultProps={defaultImageCompProps}
+      />
+      <Composition
+        id='MyVideo2'
+        component={Main}
+        durationInFrames={450}
+        fps={VIDEO_FPS}
+        width={WIDTH}
+        height={HEIGHT}
       />
     </>
   )
