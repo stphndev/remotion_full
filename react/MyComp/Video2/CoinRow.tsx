@@ -1,10 +1,14 @@
-import { Img, staticFile } from 'remotion'
+import { useEffect, useState } from 'react'
+import { Img, staticFile, useCurrentFrame } from 'remotion'
 import { z } from 'zod'
 
 export const coinRowSchema = z.object({
   imgPath: z.string(),
   coinName: z.string(),
-  growthRate: z.number(),
+  growthRate: z.object({
+    value: z.number(),
+    percent: z.number(),
+  }),
   arrowPath: z.string(),
 })
 
@@ -22,6 +26,18 @@ export const CoinRow = ({
   growthRate,
   arrowPath,
 }: z.infer<typeof coinRowSchema>) => {
+  const frame = useCurrentFrame()
+  const [value, setValue] = useState(`${growthRate.percent}%`)
+
+  useEffect(() => {
+    let myValue = growthRate.value.toString()
+    if ((frame / 120) % 2 === 1 && value !== myValue) {
+      setValue(myValue)
+    } else if ((frame / 120) % 2 === 0 && value !== `${growthRate.percent}%`) {
+      setValue(`${growthRate.percent}%`)
+    }
+  }, [frame])
+
   return (
     <div style={container}>
       <div style={{ display: 'flex', gap: '150px', alignItems: 'center' }}>
@@ -29,7 +45,7 @@ export const CoinRow = ({
         <p style={{ fontSize: '100px' }}>{coinName}</p>
       </div>
       <div style={{ display: 'flex', gap: 5, alignItems: 'center' }}>
-        <span style={{ fontSize: '60px' }}>{`${growthRate}%`}</span>
+        <span style={{ fontSize: '60px', width: '150px' }}>{value}</span>
         <Img height={100} width={100} src={staticFile(arrowPath)} />
       </div>
     </div>

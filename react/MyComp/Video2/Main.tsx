@@ -31,19 +31,19 @@ export const Main = () => {
         <CoinRow
           imgPath='btc.svg'
           coinName='BTC'
-          growthRate={0.4}
+          growthRate={{ value: 23119, percent: 0.4 }}
           arrowPath='triangle-up.svg'
         />
         <CoinRow
           imgPath='eth.svg'
           coinName='ETH'
-          growthRate={0.1}
+          growthRate={{ value: 1601, percent: 0.1 }}
           arrowPath='triangle-up.svg'
         />
         <CoinRow
           imgPath='ada.svg'
           coinName='ADA'
-          growthRate={1.3}
+          growthRate={{ value: 0.36, percent: 1.3 }}
           arrowPath='triangle-down.svg'
         />
       </div>
