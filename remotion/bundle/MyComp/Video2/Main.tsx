@@ -1,16 +1,20 @@
 import { useVideoConfig } from 'remotion'
 import { CoinRow } from './CoinRow'
+import { video2CompSchema, coinRowSchema } from '@/libs/types/constants'
+import { z } from 'zod'
 import { Heading } from './Heading'
 
-export const Main = () => {
+export const Main: React.FC<z.infer<typeof video2CompSchema>> = ({
+  coinRows,
+}) => {
   const { width, height } = useVideoConfig()
-
+  console.log(coinRows)
   return (
     <main
       style={{
         width: width,
         height: height,
-        backgroundColor: '#350d36',
+        backgroundColor: '#030c2b',
         display: 'flex',
         flexDirection: 'column',
         color: '#fff',
@@ -28,24 +32,15 @@ export const Main = () => {
           justifyContent: 'center',
         }}
       >
-        <CoinRow
-          imgPath='btc.svg'
-          coinName='BTC'
-          growthRate={{ value: 23119, percent: 0.4 }}
-          arrowPath='triangle-up.svg'
-        />
-        <CoinRow
-          imgPath='eth.svg'
-          coinName='ETH'
-          growthRate={{ value: 1601, percent: 0.1 }}
-          arrowPath='triangle-up.svg'
-        />
-        <CoinRow
-          imgPath='ada.svg'
-          coinName='ADA'
-          growthRate={{ value: 0.36, percent: 1.3 }}
-          arrowPath='triangle-down.svg'
-        />
+        {coinRows?.map((coinRow: z.infer<typeof coinRowSchema>) => (
+          <CoinRow
+            imageUrl={coinRow.imageUrl}
+            name={coinRow.name}
+            value={coinRow.value}
+            change={coinRow.change}
+            direction={coinRow.direction}
+          />
+        ))}
       </div>
     </main>
   )

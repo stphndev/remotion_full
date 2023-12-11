@@ -15,7 +15,6 @@ export const Text: React.FC<z.infer<typeof myTextSchema>> = ({
   const frame = useCurrentFrame()
 
   const textInterval = videoConfig.durationInFrames / titleTexts.length
-
   const currentTextIndex = Math.floor(frame / textInterval)
 
   const translateYX = interpolate(
