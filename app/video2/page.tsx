@@ -1,15 +1,15 @@
 'use client'
 
-import { RenderVideoControls } from '@/components/RenderVideoControls'
+import { RenderVideo2Controls } from '@/components/RenderVideo2Controls'
 import {
-  DURATION_IN_FRAMES,
   HEIGHT,
   VIDEO_FPS,
   WIDTH,
+  defaultVideo2CompProps,
   defaultVideoCompProps,
-  videoCompSchema,
+  video2CompSchema,
 } from '@/libs/types/constants'
-import { VideoComp } from '@/remotion/bundle/MyComp/Video/VideoComp'
+import { Main } from '@/remotion/bundle/MyComp/Video2/Main'
 import { Player } from '@remotion/player'
 import type { NextPage } from 'next'
 import React, { useMemo, useState } from 'react'
@@ -34,30 +34,26 @@ const control: React.CSSProperties = {
   padding: '10px',
 }
 
-const Video: NextPage = () => {
-  const [texts, setTexts] = useState(defaultVideoCompProps.titleTexts)
-  const [color, setColor] = useState(defaultVideoCompProps.titleColor)
+const Video2: NextPage = () => {
+  const [coinRows, setCoinRows] = useState(defaultVideo2CompProps.coinRows)
   const [pageHeading, setPageHeading] = useState(
     defaultVideoCompProps.pageHeading
   )
-
-  const inputProps: z.infer<typeof videoCompSchema> = useMemo(() => {
+  const inputProps: z.infer<typeof video2CompSchema> = useMemo(() => {
     return {
-      titleTexts: texts,
-      titleColor: color,
-      pageHeading: pageHeading,
+      coinRows,
     }
-  }, [texts, color, pageHeading])
+  }, [coinRows])
 
   return (
     <div>
-      <h1 style={{ textAlign: 'center' }}>{pageHeading}</h1>
+      <h1 style={{ textAlign: 'center', fontSize: '24px' }}>{pageHeading}</h1>
       <div className='container'>
         <div style={outer}>
           <Player
-            component={VideoComp}
+            component={Main}
             inputProps={inputProps}
-            durationInFrames={DURATION_IN_FRAMES}
+            durationInFrames={420}
             fps={VIDEO_FPS}
             compositionHeight={HEIGHT}
             compositionWidth={WIDTH}
@@ -67,12 +63,10 @@ const Video: NextPage = () => {
           />
         </div>
         <div style={control}>
-          <RenderVideoControls
-            texts={texts}
-            setTexts={setTexts}
+          <RenderVideo2Controls
+            coinRows={coinRows}
+            setCoinRows={setCoinRows}
             inputProps={inputProps}
-            color={color}
-            setColor={setColor}
             pageHeading={pageHeading}
             setPageHeading={setPageHeading}
           />
@@ -82,4 +76,4 @@ const Video: NextPage = () => {
   )
 }
 
-export default Video
+export default Video2

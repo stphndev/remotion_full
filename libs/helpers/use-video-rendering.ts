@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import { useCallback, useMemo, useState } from 'react'
-import { getProgress, renderNewVideo } from '../api'
+import { renderNewVideo } from '../api'
 import { videoCompSchema } from '../types/constants'
 
 export type State =
@@ -24,14 +24,6 @@ export type State =
       status: 'done'
     }
 
-const wait = async (milliSeconds: number) => {
-  await new Promise<void>((resolve) => {
-    setTimeout(() => {
-      resolve()
-    }, milliSeconds)
-  })
-}
-
 export const useVideoRendering = (
   id: string,
   inputProps: z.infer<typeof videoCompSchema>
@@ -50,44 +42,6 @@ export const useVideoRendering = (
         status: 'done',
         message,
       })
-
-      // let pending = true
-
-      // while (pending) {
-      //   const result = await getProgress({
-      //     id: renderId,
-      //     bucketName: bucketName,
-      //   })
-      //   switch (result.type) {
-      //     case 'error': {
-      //       setState({
-      //         status: 'error',
-      //         renderId: renderId,
-      //         error: new Error(result.message),
-      //       })
-      //       pending = false
-      //       break
-      //     }
-      //     case 'done': {
-      //       setState({
-      //         size: result.size,
-      //         url: result.url,
-      //         status: 'done',
-      //       })
-      //       pending = false
-      //       break
-      //     }
-      //     case 'progress': {
-      //       setState({
-      //         status: 'rendering',
-      //         // bucketName: bucketName,
-      //         progress: result.progress,
-      //         // renderId: renderId,
-      //       })
-      //       await wait(1000)
-      //     }
-      //   }
-      // }
     } catch (err) {
       setState({
         status: 'error',

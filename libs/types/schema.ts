@@ -1,9 +1,14 @@
 import { z } from 'zod'
-import { imageCompSchema, videoCompSchema } from './constants'
+import { imageCompSchema, video2CompSchema, videoCompSchema } from './constants'
 
 export const RenderVideoRequest = z.object({
   id: z.string(),
   inputProps: videoCompSchema,
+})
+
+export const RenderVideo2Request = z.object({
+  id: z.string(),
+  inputProps: video2CompSchema,
 })
 
 export const RenderImageRequest = z.object({
