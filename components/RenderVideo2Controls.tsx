@@ -12,6 +12,11 @@ import {
 import { ErrorComp } from './Error'
 import { useVideo2Rendering } from '@/libs/helpers/use-video2-rendering'
 import { Input } from './Input'
+import { FontPicker } from './FontPicker'
+import { useState } from 'react'
+import { loadFont } from '@remotion/google-fonts/ChakraPetch'
+
+const { fontFamily } = loadFont()
 
 const textarea: React.CSSProperties = {
   resize: 'none',
@@ -25,7 +30,7 @@ const textarea: React.CSSProperties = {
   fontSize: 14,
 }
 
-const select: React.CSSProperties = {
+export const select: React.CSSProperties = {
   resize: 'none',
   lineHeight: 1.7,
   display: 'block',
@@ -50,8 +55,16 @@ export const RenderVideo2Controls: React.FC<{
   >
   pageHeading: string
   setPageHeading: React.Dispatch<React.SetStateAction<string>>
+  setMyFont: React.Dispatch<React.SetStateAction<string>>
   inputProps: z.infer<typeof video2CompSchema>
-}> = ({ coinRows, setCoinRows, pageHeading, setPageHeading, inputProps }) => {
+}> = ({
+  coinRows,
+  setCoinRows,
+  pageHeading,
+  setPageHeading,
+  setMyFont,
+  inputProps,
+}) => {
   const { renderMedia, state } = useVideo2Rendering(
     VIDEO2_COMP_NAME,
     inputProps
@@ -158,6 +171,9 @@ export const RenderVideo2Controls: React.FC<{
       state.status === 'invoking' ||
       state.status === 'error' ? (
         <div style={controls}>
+          <DropDown text='Font Picker'>
+            <FontPicker setMyFont={setMyFont} />
+          </DropDown>
           <DropDown text='Heading'>
             <Input setText={setPageHeading} text={pageHeading}></Input>
           </DropDown>

@@ -23,8 +23,7 @@ export const Heading: React.FC<z.infer<typeof headingSchema>> = ({
           color: titleColor,
           fontSize: '100px',
           textAlign: 'center',
-          width: '50%',
-          fontFamily: 'Agbalumo',
+          width: '60%',
         }}
       >
         {titleTexts}

@@ -1,4 +1,4 @@
-import { useVideoConfig } from 'remotion'
+import { AbsoluteFill, useVideoConfig } from 'remotion'
 import { CoinRow } from './CoinRow'
 import { video2CompSchema, coinRowSchema } from '@/libs/types/constants'
 import { z } from 'zod'
@@ -6,11 +6,12 @@ import { Heading } from './Heading'
 
 export const Main: React.FC<z.infer<typeof video2CompSchema>> = ({
   coinRows,
+  font,
 }) => {
   const { width, height } = useVideoConfig()
-  console.log(coinRows)
+
   return (
-    <main
+    <AbsoluteFill
       style={{
         width: width,
         height: height,
@@ -19,6 +20,7 @@ export const Main: React.FC<z.infer<typeof video2CompSchema>> = ({
         flexDirection: 'column',
         color: '#fff',
         paddingTop: '120px',
+        fontFamily: font,
       }}
     >
       <p style={{ fontStyle: 'italic', fontSize: '40px', textAlign: 'center' }}>
@@ -34,6 +36,7 @@ export const Main: React.FC<z.infer<typeof video2CompSchema>> = ({
       >
         {coinRows?.map((coinRow: z.infer<typeof coinRowSchema>) => (
           <CoinRow
+            key={coinRow.name}
             imageUrl={coinRow.imageUrl}
             name={coinRow.name}
             value={coinRow.value}
@@ -42,6 +45,6 @@ export const Main: React.FC<z.infer<typeof video2CompSchema>> = ({
           />
         ))}
       </div>
-    </main>
+    </AbsoluteFill>
   )
 }

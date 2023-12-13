@@ -38,7 +38,6 @@ export const useImageRendering = (
     })
     try {
       const { message, result } = await renderImage({ id, inputProps })
-      console.log(result)
       setState({
         status: 'done',
         message,

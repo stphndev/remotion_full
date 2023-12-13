@@ -14,6 +14,9 @@ import { Player } from '@remotion/player'
 import type { NextPage } from 'next'
 import React, { useMemo, useState } from 'react'
 import { z } from 'zod'
+import { loadFont } from '@remotion/google-fonts/ChakraPetch'
+
+const { fontFamily } = loadFont()
 
 const outer: React.CSSProperties = {
   overflow: 'hidden',
@@ -36,14 +39,16 @@ const control: React.CSSProperties = {
 
 const Video2: NextPage = () => {
   const [coinRows, setCoinRows] = useState(defaultVideo2CompProps.coinRows)
+  const [font, setFont] = useState(fontFamily)
   const [pageHeading, setPageHeading] = useState(
     defaultVideoCompProps.pageHeading
   )
   const inputProps: z.infer<typeof video2CompSchema> = useMemo(() => {
     return {
       coinRows,
+      font: font,
     }
-  }, [coinRows])
+  }, [coinRows, font])
 
   return (
     <div>
@@ -59,7 +64,6 @@ const Video2: NextPage = () => {
             compositionWidth={WIDTH}
             style={player}
             controls={true}
-            loop={true}
           />
         </div>
         <div style={control}>
@@ -69,6 +73,7 @@ const Video2: NextPage = () => {
             inputProps={inputProps}
             pageHeading={pageHeading}
             setPageHeading={setPageHeading}
+            setMyFont={setFont}
           />
         </div>
       </div>
