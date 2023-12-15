@@ -18,7 +18,7 @@
         "@mui/material": "^5.14.17",
         "@remotion/bundler": "^4.0.19",
         "@remotion/cli": "^4.0.19",
-        "@remotion/google-fonts": "4.0.76",
+        "@remotion/google-fonts": "^4.0.76",
         "@remotion/lambda": "^4.0.19",
         "@remotion/player": "^4.0.19",
         "@remotion/transitions": "^4.0.74",
