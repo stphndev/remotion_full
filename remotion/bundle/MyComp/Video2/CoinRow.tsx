@@ -19,6 +19,14 @@ const container: React.CSSProperties = {
   color: '#fff',
 }
 
+const dollarFormat = (value: number) => {
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    maximumSignificantDigits: 3,
+  }).format(value)
+}
+
 export const CoinRow = ({
   imageUrl,
   name,
@@ -71,7 +79,7 @@ export const CoinRow = ({
   })
 
   const valueChange =
-    currentTextIndex % 2 === 0 ? `${change}%` : value.toString()
+    currentTextIndex % 2 === 0 ? `${change}%` : `${dollarFormat(value)}`
 
   return (
     <div style={container}>

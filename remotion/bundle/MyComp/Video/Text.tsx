@@ -1,9 +1,15 @@
 import { interpolate, useCurrentFrame, useVideoConfig } from 'remotion'
 import { z } from 'zod'
+import { useMemo, useState } from 'react'
 import { zColor } from '@remotion/zod-types'
 
-export const myTextSchema = z.object({
-  titleTexts: z.array(z.string()),
+const myTextSchema = z.object({
+  titleTexts: z.array(
+    z.object({
+      title: z.string(),
+      text: z.array(z.string()),
+    })
+  ),
   titleColor: zColor(),
 })
 
@@ -13,30 +19,24 @@ export const Text: React.FC<z.infer<typeof myTextSchema>> = ({
 }) => {
   const videoConfig = useVideoConfig()
   const frame = useCurrentFrame()
+  const [myResult, setMyresult] = useState<React.ReactElement>()
 
   const textInterval = videoConfig.durationInFrames / titleTexts.length
   const currentTextIndex = Math.floor(frame / textInterval)
 
+  const interval = textInterval / (titleTexts[currentTextIndex].text.length + 1)
+
+  const textIndex =
+    Math.floor(frame / interval) %
+    (titleTexts[currentTextIndex].text.length + 1)
+
   const translateYX = interpolate(
     frame,
     [
-      currentTextIndex * textInterval + 10,
-      currentTextIndex * textInterval + 20,
+      Math.floor(frame / interval) * interval,
+      Math.floor(frame / interval) * interval + 20,
     ],
-    [400, 0],
-    {
-      extrapolateLeft: 'clamp',
-      extrapolateRight: 'clamp',
-    }
-  )
-
-  const opacity = interpolate(
-    frame,
-    [
-      currentTextIndex * textInterval + 10,
-      currentTextIndex * textInterval + 20,
-    ],
-    [0, 1],
+    [800, 0],
     {
       extrapolateLeft: 'clamp',
       extrapolateRight: 'clamp',
@@ -46,10 +46,23 @@ export const Text: React.FC<z.infer<typeof myTextSchema>> = ({
   const translateXY = interpolate(
     frame,
     [
-      (currentTextIndex + 1) * textInterval - 30,
-      (currentTextIndex + 1) * textInterval,
+      (Math.floor(frame / interval) + 1) * interval - 20,
+      (Math.floor(frame / interval) + 1) * interval,
     ],
     [0, 1080],
+    {
+      extrapolateLeft: 'clamp',
+      extrapolateRight: 'clamp',
+    }
+  )
+
+  const opacity = interpolate(
+    frame,
+    [
+      Math.floor(frame / interval) * interval - 5,
+      Math.floor(frame / interval) * interval + 10,
+    ],
+    [0, 1],
     {
       extrapolateLeft: 'clamp',
       extrapolateRight: 'clamp',
@@ -59,10 +72,10 @@ export const Text: React.FC<z.infer<typeof myTextSchema>> = ({
   const translateX = interpolate(
     frame,
     [
-      currentTextIndex * textInterval - 10,
-      currentTextIndex * textInterval + 20,
-      (currentTextIndex + 1) * textInterval - 30,
-      (currentTextIndex + 1) * textInterval,
+      Math.floor(frame / interval) * interval - 5,
+      Math.floor(frame / interval) * interval + 10,
+      (Math.floor(frame / interval) + 1) * interval - 20,
+      (Math.floor(frame / interval) + 1) * interval,
     ],
     [-1080, 0, 0, 1080],
     {
@@ -72,9 +85,50 @@ export const Text: React.FC<z.infer<typeof myTextSchema>> = ({
   )
 
   const transform =
-    frame <= currentTextIndex * textInterval + 30
+    frame <= Math.floor(frame / interval) * interval + 10
       ? `translateY(${translateYX}px)`
       : `translateX(${translateXY}px)`
+
+  console.log(transform, frame)
+
+  const test = (item: any) => {
+    if (textIndex === 0) {
+      setMyresult(
+        <p
+          style={{
+            color: titleColor,
+            fontSize: '70px',
+            textAlign: 'center',
+            width: '70%',
+            fontFamily: 'Agbalumo',
+            transform: transform,
+            opacity,
+          }}
+        >
+          {item.title}
+        </p>
+      )
+    } else {
+      setMyresult(
+        <p
+          style={{
+            color: titleColor,
+            fontSize: '70px',
+            textAlign: 'center',
+            width: '70%',
+            fontFamily: 'Agbalumo',
+            transform: `translate(${translateX}px)`,
+          }}
+        >
+          {item.text[textIndex - 1]}
+        </p>
+      )
+    }
+  }
+
+  useMemo(() => {
+    test(titleTexts[currentTextIndex])
+  }, [currentTextIndex, textIndex, frame])
 
   return (
     <div
@@ -83,10 +137,11 @@ export const Text: React.FC<z.infer<typeof myTextSchema>> = ({
         position: 'absolute',
         bottom: '30%',
         display: 'flex',
+        width: '100%',
         justifyContent: 'center',
       }}
     >
-      {currentTextIndex % 2 === 0 ? (
+      {/* {currentTextIndex % 2 === 0 ? (
         <p
           style={{
             color: titleColor,
@@ -113,7 +168,8 @@ export const Text: React.FC<z.infer<typeof myTextSchema>> = ({
         >
           {titleTexts[currentTextIndex].toUpperCase()}
         </p>
-      )}
+      )} */}
+      {myResult}
     </div>
   )
 }

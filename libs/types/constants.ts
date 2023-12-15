@@ -8,7 +8,12 @@ export const VIDEO2_COMP_NAME = 'MyVideo2'
 export const SERVE_URL = 'http//:localhost:3000'
 
 export const videoCompSchema = z.object({
-  titleTexts: z.array(z.string()),
+  titleTexts: z.array(
+    z.object({
+      title: z.string(),
+      text: z.array(z.string()),
+    })
+  ),
   titleColor: zColor(),
   pageHeading: z.string(),
 })
@@ -28,11 +33,22 @@ export const video2CompSchema = z.object({
 
 export const defaultVideoCompProps: z.infer<typeof videoCompSchema> = {
   titleTexts: [
-    'Balancer Exploit Results in $900K stolen from LPs',
-    'The Team warned about the bug 5 days prior',
-    'Record 1 million ETH burned since the start of this year',
-    'Uniswap fees alone made for 50% of the burn',
-    'Grayscale wins against the sec in court',
+    {
+      title: 'The first slide news title',
+      text: ['first sentence', 'second sentence'],
+    },
+    {
+      title: 'The second slide news title',
+      text: ['first sentence', 'second sentence'],
+    },
+    {
+      title: 'The third slide news title',
+      text: ['first sentence', 'second sentence'],
+    },
+    {
+      title: 'The fourth slide news title',
+      text: ['first sentence', 'second sentence'],
+    },
   ],
   titleColor: '#ffff',
   pageHeading: 'Remotion Video',

@@ -1,7 +1,7 @@
 import { useCurrentFrame, useVideoConfig, staticFile } from 'remotion'
 import { Img } from 'remotion'
 
-const logoPaths = ['google_1.png', 'grayscale_1.png']
+const logoPaths = ['logo.png', 'logo_grayscale.png']
 
 export const LogoSequence = () => {
   const videoConfig = useVideoConfig()
@@ -27,8 +27,8 @@ export const LogoSequence = () => {
           key={index}
           src={staticFile(logoPaths[index % 2])}
           style={{
-            width: 150,
-            height: 100,
+            width: 200,
+            height: 80,
           }}
         />
       ))}

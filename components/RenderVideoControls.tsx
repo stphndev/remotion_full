@@ -29,9 +29,11 @@ const controls: React.CSSProperties = {
 }
 
 export const RenderVideoControls: React.FC<{
-  texts: string[]
+  texts: { title: string; text: string[] }[]
   color: string
-  setTexts: React.Dispatch<React.SetStateAction<string[]>>
+  setTexts: React.Dispatch<
+    React.SetStateAction<{ title: string; text: string[] }[]>
+  >
   setColor: React.Dispatch<React.SetStateAction<string>>
   pageHeading: string
   setPageHeading: React.Dispatch<React.SetStateAction<string>>
@@ -54,13 +56,44 @@ export const RenderVideoControls: React.FC<{
     e: React.ChangeEvent<HTMLInputElement>,
     textIndex: number
   ) => {
-    setTexts((prevTexts: string[]) => {
-      const newTexts = prevTexts.map((text: string, index) => {
-        if (index === textIndex) {
-          return e.target.value
+    setTexts((prevTexts: { title: string; text: string[] }[]) => {
+      const newTexts = prevTexts.map(
+        (titleText: { title: string; text: string[] }, index) => {
+          if (index === textIndex) {
+            return {
+              ...titleText,
+              title: e.target.value,
+            }
+          }
+          return titleText
         }
-        return text
-      })
+      )
+      return newTexts
+    })
+  }
+
+  const handleSentenceChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    textIndex: number,
+    textidx: number
+  ) => {
+    setTexts((prevTexts: { title: string; text: string[] }[]) => {
+      const newTexts = prevTexts.map(
+        (titleText: { title: string; text: string[] }, index) => {
+          if (index === textIndex) {
+            return {
+              ...titleText,
+              text: titleText.text.map((ttext, idx) => {
+                if (idx === textidx) {
+                  return e.target.value
+                }
+                return ttext
+              }),
+            }
+          }
+          return titleText
+        }
+      )
       return newTexts
     })
   }
@@ -77,13 +110,29 @@ export const RenderVideoControls: React.FC<{
           <DropDown text='Text'>
             {texts?.map((text, index) => (
               <div key={index}>
+                <p>{`Segment${index + 1}`}</p>
                 <input
                   style={textarea}
-                  value={text}
+                  placeholder='title'
+                  value={text.title}
                   onChange={(e) => handleChange(e, index)}
                 />
                 <Spacing></Spacing>
                 <Spacing></Spacing>
+                {text.text.length > 0 &&
+                  text.text.map((txt: string, idx: number) => (
+                    <>
+                      <input
+                        key={idx}
+                        placeholder='sentence'
+                        style={textarea}
+                        value={txt}
+                        onChange={(e) => handleSentenceChange(e, index, idx)}
+                      />
+                      <Spacing></Spacing>
+                      <Spacing></Spacing>
+                    </>
+                  ))}
               </div>
             ))}
           </DropDown>

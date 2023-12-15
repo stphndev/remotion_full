@@ -3,7 +3,7 @@
 - First run
 
 ```bash
-"npm run node-render" to start the node server on "http//:localhost:3000".
+"npm run remotion" to start the node server on "http//:localhost:3001".
 ```
 
 - Then run
