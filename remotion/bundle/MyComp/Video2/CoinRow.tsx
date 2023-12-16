@@ -12,9 +12,9 @@ import { z } from 'zod'
 const container: React.CSSProperties = {
   display: 'flex',
   alignItems: 'center',
-  justifyContent: 'space-between',
+
   padding: '0 150px',
-  gap: 100,
+  gap: 200,
   width: '100%',
   color: '#fff',
 }
@@ -54,15 +54,16 @@ export const CoinRow = ({
     }
   )
 
-  const scale = spring({
-    fps,
-    frame: frame,
-    from: 0.8,
-    to: 1,
-    config: {
-      damping: 200,
-    },
-  })
+  const scale = interpolate(
+    frame,
+    [
+      currentTextIndex * textInterval,
+      currentTextIndex * textInterval + 10,
+      (currentTextIndex + 1) * textInterval - 10,
+      (currentTextIndex + 1) * textInterval,
+    ],
+    [0.8, 1, 1, 0]
+  )
 
   const scale2 = spring({
     fps,
@@ -85,27 +86,29 @@ export const CoinRow = ({
     <div style={container}>
       <div style={{ display: 'flex', gap: '100px', alignItems: 'center' }}>
         <Img height={100} width={100} src={staticFile(imageUrl)} />
-        <p style={{ fontSize: '100px' }}>{name}</p>
+        <p style={{ fontSize: '70px' }}>{name}</p>
       </div>
       <div
         style={{
           display: 'flex',
           alignItems: 'center',
-          gap: 20,
+          width: '100%',
+          gap: 10,
         }}
       >
         <span
           style={{
-            fontSize: '60px',
             display: 'flex',
-            justifyContent: 'flex-end',
+            justifyContent: 'flex-start',
+            fontSize: '50px',
             opacity,
             transform: `scale(${scale})`,
+            inlineSize: '180px',
+            overflowWrap: 'break-word',
           }}
         >
           {valueChange}
         </span>
-
         {direction === 'down' ? (
           <Img
             style={{ opacity: opacity2, transform: `scale(${scale2})` }}

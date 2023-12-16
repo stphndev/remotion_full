@@ -1,8 +1,9 @@
-import { AbsoluteFill, useVideoConfig } from 'remotion'
+import { AbsoluteFill, staticFile, useVideoConfig, Img } from 'remotion'
 import { CoinRow } from './CoinRow'
 import { video2CompSchema, coinRowSchema } from '@/libs/types/constants'
 import { z } from 'zod'
 import { Heading } from './Heading'
+
 
 export const Main: React.FC<z.infer<typeof video2CompSchema>> = ({
   coinRows,
@@ -23,9 +24,13 @@ export const Main: React.FC<z.infer<typeof video2CompSchema>> = ({
         fontFamily: font,
       }}
     >
-      <p style={{ fontStyle: 'italic', fontSize: '40px', textAlign: 'center' }}>
-        BLOCKTALK
-      </p>
+      <div style={{ textAlign: 'center' }}>
+        <Img
+         width='200px'
+         height='50px'
+         src={staticFile('logo_grayscale.png')} 
+        />
+      </div>
       <Heading titleTexts='Price Action of the day' titleColor='#fff' />
       <div
         style={{
