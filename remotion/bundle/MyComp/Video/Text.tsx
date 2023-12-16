@@ -93,8 +93,8 @@ export const Text: React.FC<z.infer<typeof myTextSchema>> = ({
   const translateX = interpolate(
     frame,
     [
-      Math.floor(frame / interval) * interval - 10,
-      Math.floor(frame / interval) * interval + 10,
+      Math.floor(frame / interval) * interval,
+      Math.floor(frame / interval) * interval + 20,
       (Math.floor(frame / interval) + 1) * interval - 20,
       (Math.floor(frame / interval) + 1) * interval,
     ],
