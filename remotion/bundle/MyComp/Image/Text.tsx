@@ -39,7 +39,7 @@ export const Text: React.FC<z.infer<typeof myTextSchema>> = ({
       <p
         style={{
           color: titleColor,
-          fontSize: '100px',
+          fontSize: '120px',
           fontFamily: font.family,
         }}
       >

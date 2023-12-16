@@ -3,8 +3,6 @@ import {
   staticFile,
   useVideoConfig,
   Img,
-  delayRender,
-  continueRender,
 } from 'remotion'
 import { CoinRow } from './CoinRow'
 import { video2CompSchema, coinRowSchema } from '@/libs/types/constants'
@@ -34,7 +32,7 @@ export const Main: React.FC<z.infer<typeof video2CompSchema>> = ({
         <Img
           placeholder='Img'
           alt='Block Talk'
-          src={staticFile('logo_grayscale.png')}
+          src={staticFile('logo.png')}
           style={{ height: 32, width: 200 }}
         />
       </div>
