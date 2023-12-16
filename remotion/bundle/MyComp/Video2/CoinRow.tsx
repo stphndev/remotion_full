@@ -12,7 +12,6 @@ import { z } from 'zod'
 const container: React.CSSProperties = {
   display: 'flex',
   alignItems: 'center',
-
   padding: '0 150px',
   gap: 200,
   width: '100%',
@@ -33,6 +32,7 @@ export const CoinRow = ({
   value,
   change,
   direction,
+  fontFamily,
 }: z.infer<typeof coinRowSchema>) => {
   const frame = useCurrentFrame()
   const { durationInFrames, fps } = useVideoConfig()
@@ -85,8 +85,13 @@ export const CoinRow = ({
   return (
     <div style={container}>
       <div style={{ display: 'flex', gap: '100px', alignItems: 'center' }}>
-        <Img height={100} width={100} src={staticFile(imageUrl)} />
-        <p style={{ fontSize: '70px' }}>{name}</p>
+        <Img
+          placeholder='Image'
+          height={100}
+          width={100}
+          src={staticFile(imageUrl)}
+        />
+        <p style={{ fontSize: '70px', fontFamily }}>{name}</p>
       </div>
       <div
         style={{
@@ -105,12 +110,14 @@ export const CoinRow = ({
             transform: `scale(${scale})`,
             inlineSize: '180px',
             overflowWrap: 'break-word',
+            fontFamily,
           }}
         >
           {valueChange}
         </span>
         {direction === 'down' ? (
           <Img
+            placeholder='Image'
             style={{ opacity: opacity2, transform: `scale(${scale2})` }}
             height={100}
             width={100}
@@ -118,6 +125,7 @@ export const CoinRow = ({
           />
         ) : (
           <Img
+            placeholder='Image'
             style={{ opacity: opacity2, transform: `scale(${scale2})` }}
             height={100}
             width={100}

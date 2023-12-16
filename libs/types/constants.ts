@@ -1,11 +1,25 @@
 import { z } from 'zod'
 import { zColor } from '@remotion/zod-types'
-import { fontFamily } from '@remotion/google-fonts/ChakraPetch'
+import { continueRender, delayRender, staticFile } from 'remotion'
 
 export const IMAGE_COMP_NAME = 'OnlyImage'
 export const VIDEO_COMP_NAME = 'MyComponent'
 export const VIDEO2_COMP_NAME = 'MyVideo2'
 export const SERVE_URL = 'http//:localhost:3000'
+
+const waitForFont = delayRender()
+const font = new FontFace(
+  'Handel Gothic',
+  `url('${staticFile('Handel Gothic D Regular.ttf')}') format('truetype')`
+)
+
+font
+  .load()
+  .then(() => {
+    document.fonts.add(font)
+    continueRender(waitForFont)
+  })
+  .catch((err) => console.log('Error loading font', err))
 
 export const videoCompSchema = z.object({
   titleTexts: z.array(
@@ -24,6 +38,7 @@ export const coinRowSchema = z.object({
   change: z.number(),
   direction: z.string(),
   imageUrl: z.string(),
+  fontFamily: z.string().optional(),
 })
 
 export const video2CompSchema = z.object({
@@ -70,7 +85,7 @@ export const defaultVideo2CompProps: z.infer<typeof video2CompSchema> = {
       direction: 'down',
     },
   ],
-  font: fontFamily,
+  font: font.family,
 }
 
 export const imageCompSchema = z.object({

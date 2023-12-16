@@ -14,9 +14,21 @@ import { Player } from '@remotion/player'
 import type { NextPage } from 'next'
 import React, { useMemo, useState } from 'react'
 import { z } from 'zod'
-import { loadFont } from '@remotion/google-fonts/ChakraPetch'
+import { continueRender, delayRender, staticFile } from 'remotion'
 
-const { fontFamily } = loadFont()
+const waitForFont = delayRender()
+const font = new FontFace(
+  'Handel Gothic',
+  `url('${staticFile('Handel Gothic D Regular.ttf')}') format('truetype')`
+)
+
+font
+  .load()
+  .then(() => {
+    document.fonts.add(font)
+    continueRender(waitForFont)
+  })
+  .catch((err) => console.log('Error loading font', err))
 
 const outer: React.CSSProperties = {
   overflow: 'hidden',
@@ -39,16 +51,16 @@ const control: React.CSSProperties = {
 
 const Video2: NextPage = () => {
   const [coinRows, setCoinRows] = useState(defaultVideo2CompProps.coinRows)
-  const [font, setFont] = useState(fontFamily)
+  const [myFont, setMyFont] = useState(font.family)
   const [pageHeading, setPageHeading] = useState(
     defaultVideoCompProps.pageHeading
   )
   const inputProps: z.infer<typeof video2CompSchema> = useMemo(() => {
     return {
       coinRows,
-      font: font,
+      font: myFont,
     }
-  }, [coinRows, font])
+  }, [coinRows, myFont])
 
   return (
     <div>
@@ -73,7 +85,7 @@ const Video2: NextPage = () => {
             inputProps={inputProps}
             pageHeading={pageHeading}
             setPageHeading={setPageHeading}
-            setMyFont={setFont}
+            setMyFont={setMyFont}
           />
         </div>
       </div>
