@@ -41,14 +41,6 @@ export const defaultVideoCompProps: z.infer<typeof videoCompSchema> = {
       title: 'The second slide news title',
       text: ['first sentence', 'second sentence'],
     },
-    {
-      title: 'The third slide news title',
-      text: ['first sentence', 'second sentence'],
-    },
-    {
-      title: 'The fourth slide news title',
-      text: ['first sentence', 'second sentence'],
-    },
   ],
   titleColor: '#ffff',
   pageHeading: 'Remotion Video',
@@ -88,8 +80,7 @@ export const imageCompSchema = z.object({
 })
 
 export const defaultImageCompProps: z.infer<typeof imageCompSchema> = {
-  titleTexts: `Ethereum price shakeup predicted amid Merge confusion Cryptocurrency 
-  has doubled in value since mid June ahead of momentous event`,
+  titleTexts: `Ethereum and cryptocurrency price shakeup predicted amid Merge`,
   titleColor: '#000',
   pageHeading: 'Remotion Image',
 }
