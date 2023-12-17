@@ -1,6 +1,6 @@
+import ThemeRegistry from '@/components/ThemeRegistry'
 import type { Metadata } from 'next'
-import './globals.css'
-import ThemeRegistry from '@/libs/ThemeRegistry'
+import { ReactNode } from 'react'
 
 export const metadata: Metadata = {
   title: 'Remotion',
@@ -8,15 +8,19 @@ export const metadata: Metadata = {
 }
 
 export default function RootLayout({
-  children,
+    children,
 }: {
-  children: React.ReactNode
+    children: ReactNode
 }) {
-  return (
-    <html lang='en'>
-      <body>
-        <ThemeRegistry>{children}</ThemeRegistry>
-      </body>
-    </html>
-  )
+    return (
+        <html lang="en">
+            <body
+                style={{
+                    minHeight: '100dvh',
+                }}
+            >
+                <ThemeRegistry>{children}</ThemeRegistry>
+            </body>
+        </html>
+    )
 }
