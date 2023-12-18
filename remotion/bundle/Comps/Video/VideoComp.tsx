@@ -28,6 +28,7 @@ export const VideoComp: React.FC<z.infer<typeof videoCompSchema>> = ({
   titleTexts,
   titleColor,
   videoUrls,
+  audioUrl,
 }) => {
   const { width, height } = useVideoConfig()
 
@@ -44,7 +45,7 @@ export const VideoComp: React.FC<z.infer<typeof videoCompSchema>> = ({
         fontFamily: font.family,
       }}
     >
-      <NewsUpdateDisplay videoUrls={videoUrls} />
+      <NewsUpdateDisplay videoUrls={videoUrls} audioUrl={audioUrl} />
       <Text titleTexts={titleTexts} titleColor={titleColor} />
       <LogoSequence />
     </div>

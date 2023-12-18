@@ -20,12 +20,14 @@ const Video: NextPage = () => {
   const [texts, setTexts] = useState(defaultVideoCompProps.titleTexts)
   const [color, setColor] = useState(defaultVideoCompProps.titleColor)
   const [videoUrls, setVideoUrls] = useState(defaultVideoCompProps.videoUrls)
+  const [audioUrl, setAudioUrl] = useState(defaultVideoCompProps.audioUrl)
 
   const inputProps: z.infer<typeof videoCompSchema> = useMemo(() => {
     return {
       titleTexts: texts,
       titleColor: color,
       videoUrls,
+      audioUrl,
     }
   }, [texts, color])
 
@@ -64,6 +66,8 @@ const Video: NextPage = () => {
             setTexts={setTexts}
             videoUrls={videoUrls}
             setVideoUrls={setVideoUrls}
+            audioUrl={audioUrl}
+            setAudioUrl={setAudioUrl}
             inputProps={inputProps}
             color={color}
             setColor={setColor}

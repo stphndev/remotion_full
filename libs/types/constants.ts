@@ -14,6 +14,7 @@ export const videoCompSchema = z.object({
   ),
   titleColor: zColor(),
   videoUrls: z.array(z.string()),
+  audioUrl: z.string(),
 })
 
 export const coinRowSchema = z.object({
@@ -59,6 +60,8 @@ export const defaultVideoCompProps: z.infer<typeof videoCompSchema> = {
     'https://static.videezy.com/system/resources/previews/000/048/258/original/383A9660-20200401_Stock_market_screen.mp4',
     'https://static.videezy.com/system/resources/previews/000/048/258/original/383A9660-20200401_Stock_market_screen.mp4',
   ],
+  audioUrl:
+    ' https://www.learningcontainer.com/wp-content/uploads/2020/02/Kalimba.mp3',
 }
 
 export const defaultStoryCompProps: z.infer<typeof storyCompSchema> = {

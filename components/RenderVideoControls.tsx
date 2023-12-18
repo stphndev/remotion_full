@@ -17,25 +17,26 @@ export const RenderVideoControls: React.FC<{
   texts: { title: string; text: string[] }[]
   color: string
   videoUrls: string[]
+  audioUrl: string
   setVideoUrls: React.Dispatch<React.SetStateAction<string[]>>
   setTexts: React.Dispatch<
     React.SetStateAction<{ title: string; text: string[] }[]>
   >
+  setAudioUrl: React.Dispatch<React.SetStateAction<string>>
   setColor: React.Dispatch<React.SetStateAction<string>>
   inputProps: z.infer<typeof videoCompSchema>
 }> = ({
   texts,
   setTexts,
   videoUrls,
+  audioUrl,
   setVideoUrls,
+  setAudioUrl,
   setColor,
   color,
   inputProps,
 }) => {
-  const { renderMedia, state, undo } = useVideoRendering(
-    VIDEO_COMP_NAME,
-    inputProps
-  )
+  const { renderMedia, state } = useVideoRendering(VIDEO_COMP_NAME, inputProps)
 
   const handleUrlChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -149,6 +150,17 @@ export const RenderVideoControls: React.FC<{
                   </Stack>
                 </Stack>
               ))}
+            </AccordionDetails>
+          </Accordion>
+          <Accordion>
+            <AccordionSummary>Audio Url</AccordionSummary>
+            <AccordionDetails sx={{ p: 1 }}>
+              <Input
+                placeholder='audio url'
+                value={audioUrl}
+                onChange={(e) => setAudioUrl(e.target.value)}
+                sx={{ mb: 2 }}
+              />
             </AccordionDetails>
           </Accordion>
           <Accordion>

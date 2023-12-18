@@ -1,11 +1,13 @@
 import { linearTiming, TransitionSeries } from '@remotion/transitions'
 import { slide } from '@remotion/transitions/slide'
-import { OffthreadVideo, useVideoConfig, staticFile } from 'remotion'
-import { newsUpdateSchema } from './NewsUpdateDisplay'
+import { OffthreadVideo, useVideoConfig } from 'remotion'
 import { z } from 'zod'
 import { useMemo, useState } from 'react'
 
-export const VideoSequence: React.FC<z.infer<typeof newsUpdateSchema>> = ({
+const urlSchema = z.object({
+  videoUrls: z.array(z.string()),
+})
+export const VideoSequence: React.FC<z.infer<typeof urlSchema>> = ({
   videoUrls,
 }) => {
   const { width, height } = useVideoConfig()
@@ -33,7 +35,7 @@ export const VideoSequence: React.FC<z.infer<typeof newsUpdateSchema>> = ({
             return newUrls
           })
         } else {
-          console.log('Invalid Image')
+          console.log('Invalid Video Url')
         }
       })
     }, [videoUrls])
