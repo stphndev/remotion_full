@@ -7,7 +7,7 @@ import {
 import {
   ProgressRequest,
   RenderImageRequest,
-  RenderVideo2Request,
+  RenderStoryRequest,
   RenderVideoRequest,
 } from './types/schema'
 import { env } from '@/env.mjs'
@@ -42,14 +42,14 @@ export const renderNewVideo = async ({
   return makeRequest(`${env.NEXT_PUBLIC_RENDER_URL}/api/video`, body)
 }
 
-export const renderNewVideo2 = async ({
+export const renderNewStory = async ({
   id,
   inputProps,
 }: {
   id: string
   inputProps: z.infer<typeof storyCompSchema>
 }) => {
-  const body: z.infer<typeof RenderVideo2Request> = {
+  const body: z.infer<typeof RenderStoryRequest> = {
     id,
     inputProps,
   }

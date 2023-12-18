@@ -10,7 +10,7 @@ import {
   videoCompSchema,
 } from '@/libs/types/constants'
 import { VideoComp } from '@/remotion/bundle/Comps/Video/VideoComp'
-import { Box, Grid, Stack, Typography } from '@mui/joy'
+import { Box, Grid } from '@mui/joy'
 import { Player } from '@remotion/player'
 import type { NextPage } from 'next'
 import React, { useMemo, useState } from 'react'
@@ -20,24 +20,17 @@ const Video: NextPage = () => {
   const [texts, setTexts] = useState(defaultVideoCompProps.titleTexts)
   const [color, setColor] = useState(defaultVideoCompProps.titleColor)
   const [videoUrls, setVideoUrls] = useState(defaultVideoCompProps.videoUrls)
-  const [pageHeading, setPageHeading] = useState(
-    defaultVideoCompProps.pageHeading
-  )
 
   const inputProps: z.infer<typeof videoCompSchema> = useMemo(() => {
     return {
       titleTexts: texts,
       titleColor: color,
-      pageHeading: pageHeading,
       videoUrls,
     }
-  }, [texts, color, pageHeading])
+  }, [texts, color])
 
   return (
     <Box sx={{ width: '100%', height: '100%' }}>
-      <Typography level='h1' sx={{ textAlign: 'center', mb: 5 }}>
-        {pageHeading}
-      </Typography>
       <Grid container spacing={3}>
         <Grid
           sx={{
@@ -74,8 +67,6 @@ const Video: NextPage = () => {
             inputProps={inputProps}
             color={color}
             setColor={setColor}
-            pageHeading={pageHeading}
-            setPageHeading={setPageHeading}
           />
         </Grid>
       </Grid>

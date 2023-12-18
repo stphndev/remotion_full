@@ -6,7 +6,7 @@ export const RenderVideoRequest = z.object({
   inputProps: videoCompSchema,
 })
 
-export const RenderVideo2Request = z.object({
+export const RenderStoryRequest = z.object({
   id: z.string(),
   inputProps: storyCompSchema,
 })

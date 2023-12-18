@@ -22,8 +22,6 @@ export const RenderVideoControls: React.FC<{
     React.SetStateAction<{ title: string; text: string[] }[]>
   >
   setColor: React.Dispatch<React.SetStateAction<string>>
-  pageHeading: string
-  setPageHeading: React.Dispatch<React.SetStateAction<string>>
   inputProps: z.infer<typeof videoCompSchema>
 }> = ({
   texts,
@@ -32,8 +30,6 @@ export const RenderVideoControls: React.FC<{
   setVideoUrls,
   setColor,
   color,
-  pageHeading,
-  setPageHeading,
   inputProps,
 }) => {
   const { renderMedia, state, undo } = useVideoRendering(
@@ -109,16 +105,6 @@ export const RenderVideoControls: React.FC<{
       state.status === 'error' ? (
         <Stack sx={{ width: '100%' }}>
           <Accordion>
-            <AccordionSummary>Page Heading</AccordionSummary>
-            <AccordionDetails sx={{ p: 1 }}>
-              <Input
-                value={pageHeading}
-                onChange={(e) => setPageHeading(e.target.value)}
-                sx={{ mb: 2 }}
-              />
-            </AccordionDetails>
-          </Accordion>
-          <Accordion>
             <AccordionSummary>Video URLs</AccordionSummary>
             <AccordionDetails sx={{ p: 1 }}>
               {videoUrls?.map((url, index) => (
@@ -152,17 +138,13 @@ export const RenderVideoControls: React.FC<{
                     <Typography>Sentence(s)</Typography>
                     {text.text.length > 0 &&
                       text.text.map((txt: string, idx: number) => (
-                        <>
-                          <Input
-                            key={idx}
-                            sx={{ mb: 2 }}
-                            placeholder='sentence'
-                            value={txt}
-                            onChange={(e) =>
-                              handleSentenceChange(e, index, idx)
-                            }
-                          />
-                        </>
+                        <Input
+                          key={idx}
+                          sx={{ mb: 2 }}
+                          placeholder='sentence'
+                          value={txt}
+                          onChange={(e) => handleSentenceChange(e, index, idx)}
+                        />
                       ))}
                   </Stack>
                 </Stack>

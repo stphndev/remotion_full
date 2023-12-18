@@ -5,7 +5,6 @@ import {
   VIDEO_FPS,
   WIDTH,
   defaultStoryCompProps,
-  defaultVideoCompProps,
   storyCompSchema,
 } from '@/libs/types/constants'
 import { Player } from '@remotion/player'
@@ -13,26 +12,20 @@ import type { NextPage } from 'next'
 import React, { useMemo, useState } from 'react'
 import { z } from 'zod'
 import { StoryComp } from '@/remotion/bundle/Comps/Story/StoryComp'
-import { Box, Grid, Typography } from '@mui/joy'
+import { Box, Grid, } from '@mui/joy'
 import { RenderStoryControls } from '@/components/RenderStoryControls'
 
-const Video2: NextPage = () => {
+const Story: NextPage = () => {
   const [coinRows, setCoinRows] = useState(defaultStoryCompProps.coinRows)
-  const [pageHeading, setPageHeading] = useState(
-    defaultStoryCompProps.pageHeading
-  )
+
   const inputProps: z.infer<typeof storyCompSchema> = useMemo(() => {
     return {
       coinRows,
-      pageHeading,
     }
   }, [coinRows])
 
   return (
     <Box sx={{ width: '100%', height: '100%' }}>
-      <Typography level='h1' sx={{ textAlign: 'center', mb: 5 }}>
-        {pageHeading}
-      </Typography>
       <Grid container spacing={3}>
         <Grid
           sx={{
@@ -65,8 +58,6 @@ const Video2: NextPage = () => {
             coinRows={coinRows}
             setCoinRows={setCoinRows}
             inputProps={inputProps}
-            pageHeading={pageHeading}
-            setPageHeading={setPageHeading}
           />
         </Grid>
       </Grid>
@@ -74,4 +65,4 @@ const Video2: NextPage = () => {
   )
 }
 
-export default Video2
+export default Story

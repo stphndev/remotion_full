@@ -24,6 +24,7 @@ export const LogoSequence = () => {
     >
       {[...Array(numDuplicates)].map((_, index) => (
         <Img
+          key={index}
           placeholder='Image URL'
           height={32}
           width={200}

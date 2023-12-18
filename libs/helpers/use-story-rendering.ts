@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import { useCallback, useMemo, useState } from 'react'
-import { renderNewVideo2 } from '../api'
+import { renderNewStory } from '../api'
 import { storyCompSchema } from '../types/constants'
 
 export type State =
@@ -37,7 +37,7 @@ export const useStoryRendering = (
       status: 'invoking',
     })
     try {
-      const { message } = await renderNewVideo2({ id, inputProps })
+      const { message } = await renderNewStory({ id, inputProps })
       setState({
         status: 'done',
         message,

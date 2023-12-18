@@ -18,16 +18,12 @@ export const RenderImageControls: React.FC<{
   color: string
   setText: React.Dispatch<React.SetStateAction<string>>
   setColor: React.Dispatch<React.SetStateAction<string>>
-  pageHeading: string
-  setPageHeading: React.Dispatch<React.SetStateAction<string>>
   inputProps: z.infer<typeof imageCompSchema>
 }> = ({
   text,
   setText,
   color,
   setColor,
-  pageHeading,
-  setPageHeading,
   inputProps,
 }) => {
   const { renderMedia, state } = useImageRendering(IMAGE_COMP_NAME, inputProps)
@@ -38,15 +34,6 @@ export const RenderImageControls: React.FC<{
       state.status === 'invoking' ||
       state.status === 'error' ? (
         <Stack sx={{ width: '100%' }}>
-          <Accordion>
-            <AccordionSummary>Heading</AccordionSummary>
-            <AccordionDetails sx={{ p: 1 }}>
-              <Input
-                value={pageHeading}
-                onChange={(e) => setPageHeading(e.target.value)}
-              />
-            </AccordionDetails>
-          </Accordion>
           <Accordion>
             <AccordionSummary>Text</AccordionSummary>
             <AccordionDetails sx={{ p: 1 }}>

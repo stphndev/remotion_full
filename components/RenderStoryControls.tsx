@@ -23,10 +23,8 @@ export const RenderStoryControls: React.FC<{
   setCoinRows: React.Dispatch<
     React.SetStateAction<z.infer<typeof coinRowSchema>[]>
   >
-  pageHeading: string
-  setPageHeading: React.Dispatch<React.SetStateAction<string>>
   inputProps: z.infer<typeof storyCompSchema>
-}> = ({ coinRows, setCoinRows, pageHeading, setPageHeading, inputProps }) => {
+}> = ({ coinRows, setCoinRows, inputProps }) => {
   const { renderMedia, state } = useStoryRendering(STORY_COMP_NAME, inputProps)
 
   const handleNameChange = (
@@ -133,15 +131,6 @@ export const RenderStoryControls: React.FC<{
       state.status === 'invoking' ||
       state.status === 'error' ? (
         <Stack sx={{ width: '100%' }}>
-          <Accordion>
-            <AccordionSummary>Page Heading</AccordionSummary>
-            <AccordionDetails sx={{ p: 1 }}>
-              <Input
-                value={pageHeading}
-                onChange={(e) => setPageHeading(e.target.value)}
-              />
-            </AccordionDetails>
-          </Accordion>
           {coinRows?.map((coinRow, index) => (
             <Stack key={index}>
               <Accordion>

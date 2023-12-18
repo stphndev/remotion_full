@@ -1,5 +1,5 @@
 import { coinRowSchema } from '@/libs/types/constants'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import {
   Img,
   interpolate,
@@ -85,25 +85,19 @@ export const CoinRow = ({
 
   const isValidImageUrl = (urlString: string) => {
     try {
-      if (Boolean(new URL(urlString))) {
-        fetch(urlString).then((res) => {
-          if (res.ok) {
-            return true
-          } else {
-            return false
-          }
-        })
-      }
+      return Boolean(new URL(urlString))
     } catch (e) {
       return false
     }
   }
 
-  if (isValidImageUrl(imageUrl)) {
-    setValidImage(imageUrl)
-  } else {
-    console.log('Invalid Image')
-  }
+  const handleValidImage = useMemo(() => {
+    if (isValidImageUrl(imageUrl)) {
+      setValidImage(imageUrl)
+    } else {
+      console.log('Invalid Image')
+    }
+  }, [imageUrl])
 
   return (
     <div style={container}>
