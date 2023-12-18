@@ -1,25 +1,9 @@
 import { z } from 'zod'
 import { zColor } from '@remotion/zod-types'
-import { continueRender, delayRender, staticFile } from 'remotion'
 
-export const IMAGE_COMP_NAME = 'OnlyImage'
-export const VIDEO_COMP_NAME = 'MyComponent'
-export const VIDEO2_COMP_NAME = 'MyVideo2'
-export const SERVE_URL = 'http//:localhost:3000'
-
-const waitForFont = delayRender()
-const font = new FontFace(
-  'Handel Gothic',
-  `url('${staticFile('Handel Gothic D Regular.ttf')}') format('truetype')`
-)
-
-font
-  .load()
-  .then(() => {
-    document.fonts.add(font)
-    continueRender(waitForFont)
-  })
-  .catch((err) => console.log('Error loading font', err))
+export const IMAGE_COMP_NAME = 'Image'
+export const VIDEO_COMP_NAME = 'Video'
+export const STORY_COMP_NAME = 'Story'
 
 export const videoCompSchema = z.object({
   titleTexts: z.array(
@@ -30,6 +14,7 @@ export const videoCompSchema = z.object({
   ),
   titleColor: zColor(),
   pageHeading: z.string(),
+  videoUrls: z.array(z.string()),
 })
 
 export const coinRowSchema = z.object({
@@ -38,62 +23,70 @@ export const coinRowSchema = z.object({
   change: z.number(),
   direction: z.string(),
   imageUrl: z.string(),
-  fontFamily: z.string().optional(),
 })
 
-export const video2CompSchema = z.object({
+export const storyCompSchema = z.object({
   coinRows: z.array(coinRowSchema),
-  font: z.string(),
+  pageHeading: z.string(),
 })
 
 export const defaultVideoCompProps: z.infer<typeof videoCompSchema> = {
   titleTexts: [
     {
       title: 'Memecoins Are Making Solana Users RICH',
-      text: ['BONK, Solana\'s memecoin surged 116% after getting listed on Binance',
-             'Meanwhile, users rushed to buy a Solana phone, which comes with 30M BONK'],
+      text: [
+        "BONK, Solana's memecoin surged 116% after getting listed on Binance",
+        'Meanwhile, users rushed to buy a Solana phone, which comes with 30M BONK',
+      ],
     },
     {
       title: 'SafeMoon Bankruptcy Takes Ugly Turn',
-      text: ['SafeMoon filed for Chapter 7 bankruptcy protection after being charged for fraud',
-       'The value of SFM plunged by 42% trading close to zero to the dismay of holders'],
+      text: [
+        'SafeMoon filed for Chapter 7 bankruptcy protection after being charged for fraud',
+        'The value of SFM plunged by 42% trading close to zero to the dismay of holders',
+      ],
     },
     {
       title: 'This Protocol Pays You to Test Its Network',
-      text: ['Privacy-focused LI blockchain Namada pays you to stress test the network consensus', 
-             'Presented as a competitive game, the goal is to earn points for using its features',
-             'Namada has allocated 3% of its token supply to the testnet participants'],
+      text: [
+        'Privacy-focused LI blockchain Namada pays you to stress test the network consensus',
+        'Presented as a competitive game, the goal is to earn points for using its features',
+        'Namada has allocated 3% of its token supply to the testnet participants',
+      ],
     },
   ],
   titleColor: '#ffff',
   pageHeading: 'Remotion Video',
+  videoUrls: ['https://static.videezy.com/system/resources/previews/000/044/047/original/NV-06.mp4',
+               'https://static.videezy.com/system/resources/previews/000/048/258/original/383A9660-20200401_Stock_market_screen.mp4',
+                'https://static.videezy.com/system/resources/previews/000/048/258/original/383A9660-20200401_Stock_market_screen.mp4'],
 }
 
-export const defaultVideo2CompProps: z.infer<typeof video2CompSchema> = {
+export const defaultStoryCompProps: z.infer<typeof storyCompSchema> = {
   coinRows: [
     {
-      imageUrl: 'btc.svg',
+      imageUrl: 'https://s2.coinmarketcap.com/static/img/coins/128x128/1.png',
       name: 'BTC',
       value: 23119,
       change: 0.4,
       direction: 'up',
     },
     {
-      imageUrl: 'eth.svg',
+      imageUrl: 'https://www.pngall.com/wp-content/uploads/10/Ethereum-Logo-PNG.png',
       name: 'ETH',
       value: 1601,
       change: 0.1,
       direction: 'up',
     },
     {
-      imageUrl: 'ada.svg',
+      imageUrl: 'https://cryptologos.cc/logos/cardano-ada-logo.png',
       name: 'ADA',
       value: 0.36,
       change: 1.3,
       direction: 'down',
     },
   ],
-  font: font.family,
+  pageHeading: 'Remotion Story',
 }
 
 export const imageCompSchema = z.object({

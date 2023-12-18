@@ -10,7 +10,7 @@ import {
   imageCompSchema,
 } from '@/libs/types/constants'
 import { ImageComp } from '@/remotion/bundle/Comps/Image/ImageComp'
-import { Box, Typography, Grid } from '@mui/joy'
+import { Box, Typography, Stack, Grid } from '@mui/joy'
 import { Player } from '@remotion/player'
 import type { NextPage } from 'next'
 import React, { useMemo, useState } from 'react'

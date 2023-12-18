@@ -56,7 +56,7 @@ app.post('/api/video', async (req, res) => {
   res.json({ message: 'Render done' })
 })
 
-app.post('/api/video2', async (req, res) => {
+app.post('/api/story', async (req, res) => {
   const { id, inputProps } = req.body
 
   const composition = await selectComposition({

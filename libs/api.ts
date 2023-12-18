@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import {
   imageCompSchema,
-  video2CompSchema,
+  storyCompSchema,
   videoCompSchema,
 } from './types/constants'
 import {
@@ -47,14 +47,14 @@ export const renderNewVideo2 = async ({
   inputProps,
 }: {
   id: string
-  inputProps: z.infer<typeof video2CompSchema>
+  inputProps: z.infer<typeof storyCompSchema>
 }) => {
   const body: z.infer<typeof RenderVideo2Request> = {
     id,
     inputProps,
   }
 
-  return makeRequest(`${env.NEXT_PUBLIC_RENDER_URL}/api/video2`, body)
+  return makeRequest(`${env.NEXT_PUBLIC_RENDER_URL}/api/story`, body)
 }
 
 export const renderImage = async ({
