@@ -1,37 +1,32 @@
 'use client'
 
-import { RenderVideoControls } from '@/components/RenderVideoControls'
 import {
-  DURATION_IN_FRAMES,
   HEIGHT,
   VIDEO_FPS,
   WIDTH,
+  defaultStoryCompProps,
   defaultVideoCompProps,
-  videoCompSchema,
+  storyCompSchema,
 } from '@/libs/types/constants'
-import { VideoComp } from '@/remotion/bundle/Comps/Video/VideoComp'
-import { Box, Grid, Typography } from '@mui/joy'
 import { Player } from '@remotion/player'
 import type { NextPage } from 'next'
 import React, { useMemo, useState } from 'react'
 import { z } from 'zod'
+import { StoryComp } from '@/remotion/bundle/Comps/Story/StoryComp'
+import { Box, Grid, Typography } from '@mui/joy'
+import { RenderStoryControls } from '@/components/RenderStoryControls'
 
-const Video: NextPage = () => {
-  const [texts, setTexts] = useState(defaultVideoCompProps.titleTexts)
-  const [color, setColor] = useState(defaultVideoCompProps.titleColor)
-  const [videoUrls, setVideoUrls] = useState(defaultVideoCompProps.videoUrls)
+const Video2: NextPage = () => {
+  const [coinRows, setCoinRows] = useState(defaultStoryCompProps.coinRows)
   const [pageHeading, setPageHeading] = useState(
-    defaultVideoCompProps.pageHeading
+    defaultStoryCompProps.pageHeading
   )
-
-  const inputProps: z.infer<typeof videoCompSchema> = useMemo(() => {
+  const inputProps: z.infer<typeof storyCompSchema> = useMemo(() => {
     return {
-      titleTexts: texts,
-      titleColor: color,
-      pageHeading: pageHeading,
-      videoUrls,
+      coinRows,
+      pageHeading,
     }
-  }, [texts, color, pageHeading])
+  }, [coinRows])
 
   return (
     <Box sx={{ width: '100%', height: '100%' }}>
@@ -47,9 +42,9 @@ const Video: NextPage = () => {
           }}
         >
           <Player
-            component={VideoComp}
+            component={StoryComp}
             inputProps={inputProps}
-            durationInFrames={DURATION_IN_FRAMES}
+            durationInFrames={420}
             fps={VIDEO_FPS}
             compositionHeight={HEIGHT}
             compositionWidth={WIDTH}
@@ -66,14 +61,10 @@ const Video: NextPage = () => {
             justifyContent: { xs: 'center' },
           }}
         >
-          <RenderVideoControls
-            texts={texts}
-            setTexts={setTexts}
-            videoUrls={videoUrls}
-            setVideoUrls={setVideoUrls}
+          <RenderStoryControls
+            coinRows={coinRows}
+            setCoinRows={setCoinRows}
             inputProps={inputProps}
-            color={color}
-            setColor={setColor}
             pageHeading={pageHeading}
             setPageHeading={setPageHeading}
           />
@@ -83,4 +74,4 @@ const Video: NextPage = () => {
   )
 }
 
-export default Video
+export default Video2
