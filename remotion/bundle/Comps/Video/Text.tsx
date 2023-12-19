@@ -1,40 +1,27 @@
-import { interpolate, useCurrentFrame, useVideoConfig } from 'remotion'
+import { interpolate, useCurrentFrame } from 'remotion'
+import { TransitionSeries } from '@remotion/transitions'
 import { z } from 'zod'
-import { useMemo, useState } from 'react'
-import { zColor } from '@remotion/zod-types'
 
 const myTextSchema = z.object({
-  titleTexts: z.array(
+  segments: z.array(
     z.object({
       title: z.string(),
-      text: z.array(z.string()),
+      sentences: z.array(z.string()),
+      videoUrl: z.string(),
     })
   ),
-  titleColor: zColor(),
 })
 
-export const Text: React.FC<z.infer<typeof myTextSchema>> = ({
-  titleTexts,
-  titleColor,
-}) => {
-  const videoConfig = useVideoConfig()
+export const Text: React.FC<z.infer<typeof myTextSchema>> = ({ segments }) => {
   const frame = useCurrentFrame()
-  const [myResult, setMyresult] = useState<React.ReactElement>()
 
-  const textInterval = videoConfig.durationInFrames / titleTexts.length
-  const currentTextIndex = Math.floor(frame / textInterval)
-
-  const interval = textInterval / (titleTexts[currentTextIndex].text.length + 1)
-
-  const textIndex =
-    Math.floor(frame / interval) %
-    (titleTexts[currentTextIndex].text.length + 1)
+  const interval = 90
 
   const translateYX = interpolate(
     frame,
     [
-      Math.floor(frame / interval) * interval - 10,
-      Math.floor(frame / interval) * interval + 10,
+      Math.floor(frame / interval) * interval,
+      Math.floor(frame / interval) * interval + 20,
     ],
     [1920, 0],
     {
@@ -50,19 +37,6 @@ export const Text: React.FC<z.infer<typeof myTextSchema>> = ({
       (Math.floor(frame / interval) + 1) * interval,
     ],
     [0, 1080],
-    {
-      extrapolateLeft: 'clamp',
-      extrapolateRight: 'clamp',
-    }
-  )
-
-  const opacity = interpolate(
-    frame,
-    [
-      Math.floor(frame / interval) * interval - 5,
-      Math.floor(frame / interval) * interval + 10,
-    ],
-    [0, 1],
     {
       extrapolateLeft: 'clamp',
       extrapolateRight: 'clamp',
@@ -85,58 +59,64 @@ export const Text: React.FC<z.infer<typeof myTextSchema>> = ({
   )
 
   const transform =
-    frame <= Math.floor(frame / interval) * interval + 10
+    frame <= Math.floor(frame / interval) * interval + 20
       ? `translateY(${translateYX}px)`
       : `translateX(${translateXY}px)`
-
-  const test = (item: any) => {
-    if (textIndex === 0) {
-      setMyresult(
-        <p
-          style={{
-            color: titleColor,
-            fontSize: '70px',
-            textAlign: 'center',
-            width: '70%',
-            transform: transform,
-          }}
-        >
-          {item.title}
-        </p>
-      )
-    } else {
-      setMyresult(
-        <p
-          style={{
-            color: titleColor,
-            fontSize: '70px',
-            textAlign: 'center',
-            width: '70%',
-            transform: `translate(${translateX}px)`,
-          }}
-        >
-          {item.text[textIndex - 1]}
-        </p>
-      )
-    }
-  }
-
-  useMemo(() => {
-    test(titleTexts[currentTextIndex])
-  }, [currentTextIndex, textIndex, frame])
 
   return (
     <div
       id='myText'
       style={{
         position: 'absolute',
-        bottom: '30%',
+        bottom: '55%',
         display: 'flex',
         width: '100%',
         justifyContent: 'center',
       }}
     >
-      {myResult}
+      <TransitionSeries>
+        {segments.map((segment) => {
+          let segmentInterval = interval + segment.sentences.length * interval
+          return (
+            <TransitionSeries.Sequence durationInFrames={segmentInterval}>
+              <TransitionSeries>
+                <TransitionSeries.Sequence durationInFrames={90}>
+                  <p
+                    style={{
+                      padding: '0 10%',
+                      color: '#fff',
+                      fontSize: '70px',
+                      textAlign: 'center',
+                      width: '100%',
+                      margin: 0,
+                      transform: transform,
+                    }}
+                  >
+                    {segment.title}
+                  </p>
+                </TransitionSeries.Sequence>
+                {segment.sentences.map((sentence) => (
+                  <TransitionSeries.Sequence durationInFrames={90}>
+                    <p
+                      style={{
+                        color: '#fff',
+                        fontSize: '70px',
+                        textAlign: 'center',
+                        padding: '0 10%',
+                        width: '100%',
+                        margin: 0,
+                        transform: `translate(${translateX}px)`,
+                      }}
+                    >
+                      {sentence}
+                    </p>
+                  </TransitionSeries.Sequence>
+                ))}
+              </TransitionSeries>
+            </TransitionSeries.Sequence>
+          )
+        })}
+      </TransitionSeries>
     </div>
   )
 }

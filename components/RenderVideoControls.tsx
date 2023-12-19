@@ -11,66 +11,54 @@ import {
   AccordionDetails,
   AccordionSummary,
 } from '@mui/joy'
-import { MyColorPicker } from './MyColorPicker'
 
 export const RenderVideoControls: React.FC<{
-  texts: { title: string; text: string[] }[]
-  color: string
-  videoUrls: string[]
-  audioUrl: string
-  setVideoUrls: React.Dispatch<React.SetStateAction<string[]>>
-  setTexts: React.Dispatch<
-    React.SetStateAction<{ title: string; text: string[] }[]>
+  segments: { title: string; sentences: string[]; videoUrl: string }[]
+  setSegments: React.Dispatch<
+    React.SetStateAction<
+      { title: string; sentences: string[]; videoUrl: string }[]
+    >
   >
+  audioUrl: string
   setAudioUrl: React.Dispatch<React.SetStateAction<string>>
-  setColor: React.Dispatch<React.SetStateAction<string>>
   inputProps: z.infer<typeof videoCompSchema>
 }> = ({
-  texts,
-  setTexts,
-  videoUrls,
+  segments,
+  setSegments,
+
   audioUrl,
-  setVideoUrls,
+
   setAudioUrl,
-  setColor,
-  color,
+
   inputProps,
 }) => {
   const { renderMedia, state } = useVideoRendering(VIDEO_COMP_NAME, inputProps)
-
-  const handleUrlChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    textIndex: number
-  ) => {
-    setVideoUrls((prevUrls: string[]) => {
-      const newUrls = prevUrls.map((url: string, index: number) => {
-        if (index === textIndex) {
-          return e.target.value
-        }
-        return url
-      })
-      return newUrls
-    })
-  }
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     textIndex: number
   ) => {
-    setTexts((prevTexts: { title: string; text: string[] }[]) => {
-      const newTexts = prevTexts.map(
-        (titleText: { title: string; text: string[] }, index) => {
-          if (index === textIndex) {
-            return {
-              ...titleText,
-              title: e.target.value,
+    setSegments(
+      (
+        prevSegments: { title: string; sentences: string[]; videoUrl: string }[]
+      ) => {
+        const newSegments = prevSegments.map(
+          (
+            segment: { title: string; sentences: string[]; videoUrl: string },
+            index
+          ) => {
+            if (index === textIndex) {
+              return {
+                ...segment,
+                [e.target.name]: e.target.value,
+              }
             }
+            return segment
           }
-          return titleText
-        }
-      )
-      return newTexts
-    })
+        )
+        return newSegments
+      }
+    )
   }
 
   const handleSentenceChange = (
@@ -78,25 +66,32 @@ export const RenderVideoControls: React.FC<{
     textIndex: number,
     textidx: number
   ) => {
-    setTexts((prevTexts: { title: string; text: string[] }[]) => {
-      const newTexts = prevTexts.map(
-        (titleText: { title: string; text: string[] }, index) => {
-          if (index === textIndex) {
-            return {
-              ...titleText,
-              text: titleText.text.map((ttext, idx) => {
-                if (idx === textidx) {
-                  return e.target.value
-                }
-                return ttext
-              }),
+    setSegments(
+      (
+        prevSegments: { title: string; sentences: string[]; videoUrl: string }[]
+      ) => {
+        const newSegments = prevSegments.map(
+          (
+            segment: { title: string; sentences: string[]; videoUrl: string },
+            index
+          ) => {
+            if (index === textIndex) {
+              return {
+                ...segment,
+                text: segment.sentences.map((sentence, idx) => {
+                  if (idx === textidx) {
+                    return e.target.value
+                  }
+                  return sentence
+                }),
+              }
             }
+            return segment
           }
-          return titleText
-        }
-      )
-      return newTexts
-    })
+        )
+        return newSegments
+      }
+    )
   }
 
   return (
@@ -106,47 +101,39 @@ export const RenderVideoControls: React.FC<{
       state.status === 'error' ? (
         <Stack sx={{ width: '100%' }}>
           <Accordion>
-            <AccordionSummary>Video URLs</AccordionSummary>
+            <AccordionSummary>Segments</AccordionSummary>
             <AccordionDetails sx={{ p: 1 }}>
-              {videoUrls?.map((url, index) => (
-                <Stack key={index}>
-                  <Typography>{`Url ${index + 1}`}</Typography>
-
-                  <Input
-                    placeholder='url'
-                    value={url}
-                    onChange={(e) => handleUrlChange(e, index)}
-                    sx={{ mb: 2 }}
-                  />
-                </Stack>
-              ))}
-            </AccordionDetails>
-          </Accordion>
-          <Accordion>
-            <AccordionSummary>Text</AccordionSummary>
-            <AccordionDetails sx={{ p: 1 }}>
-              {texts?.map((text, index) => (
+              {segments?.map((segment, index) => (
                 <Stack key={index}>
                   <Typography>{`Segment ${index + 1}`}</Typography>
                   <Stack>
                     <Typography>Title</Typography>
                     <Input
                       placeholder='title'
-                      value={text.title}
+                      name='title'
+                      value={segment.title}
                       onChange={(e) => handleChange(e, index)}
                       sx={{ mb: 2 }}
                     />
                     <Typography>Sentence(s)</Typography>
-                    {text.text.length > 0 &&
-                      text.text.map((txt: string, idx: number) => (
+                    {segment.sentences.length > 0 &&
+                      segment.sentences.map((sentence: string, idx: number) => (
                         <Input
                           key={idx}
                           sx={{ mb: 2 }}
                           placeholder='sentence'
-                          value={txt}
+                          value={sentence}
                           onChange={(e) => handleSentenceChange(e, index, idx)}
                         />
                       ))}
+                    <Typography>Video URL</Typography>
+                    <Input
+                      placeholder='video url'
+                      name='videoUrl'
+                      value={segment.videoUrl}
+                      onChange={(e) => handleChange(e, index)}
+                      sx={{ mb: 2 }}
+                    />
                   </Stack>
                 </Stack>
               ))}
@@ -163,17 +150,6 @@ export const RenderVideoControls: React.FC<{
               />
             </AccordionDetails>
           </Accordion>
-          <Accordion>
-            <AccordionSummary>Color</AccordionSummary>
-            <AccordionDetails sx={{ p: 1 }}>
-              <MyColorPicker
-                initialColor={color}
-                description='Text Color'
-                setMyColor={setColor}
-              />
-            </AccordionDetails>
-          </Accordion>
-
           <Stack
             sx={{
               display: 'flex',

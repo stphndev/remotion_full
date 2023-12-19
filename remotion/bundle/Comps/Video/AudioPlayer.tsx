@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react'
-import { Audio } from 'remotion'
+import { Audio, useVideoConfig } from 'remotion'
 import { z } from 'zod'
 
 const urlSchema = z.object({
@@ -8,6 +8,7 @@ const urlSchema = z.object({
 export const AudioPlayer: React.FC<z.infer<typeof urlSchema>> = ({
   audioUrl,
 }) => {
+  const { durationInFrames } = useVideoConfig()
   const [validUrl, setValidUrl] = useState(audioUrl)
   const isValidImageUrl = (urlString: string) => {
     try {
@@ -31,7 +32,7 @@ export const AudioPlayer: React.FC<z.infer<typeof urlSchema>> = ({
       src={validUrl}
       volume={1.0}
       startFrom={0}
-      endAt={810}
+      endAt={durationInFrames}
     />
   )
 }

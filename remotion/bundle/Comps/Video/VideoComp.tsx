@@ -25,9 +25,7 @@ font
   .catch((err) => console.log('Error loading font', err))
 
 export const VideoComp: React.FC<z.infer<typeof videoCompSchema>> = ({
-  titleTexts,
-  titleColor,
-  videoUrls,
+  segments,
   audioUrl,
 }) => {
   const { width, height } = useVideoConfig()
@@ -45,8 +43,8 @@ export const VideoComp: React.FC<z.infer<typeof videoCompSchema>> = ({
         fontFamily: font.family,
       }}
     >
-      <NewsUpdateDisplay videoUrls={videoUrls} audioUrl={audioUrl} />
-      <Text titleTexts={titleTexts} titleColor={titleColor} />
+      <NewsUpdateDisplay segments={segments} audioUrl={audioUrl} />
+      <Text segments={segments} />
       <LogoSequence />
     </div>
   )

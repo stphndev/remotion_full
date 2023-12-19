@@ -17,19 +17,16 @@ import React, { useMemo, useState } from 'react'
 import { z } from 'zod'
 
 const Video: NextPage = () => {
-  const [texts, setTexts] = useState(defaultVideoCompProps.titleTexts)
-  const [color, setColor] = useState(defaultVideoCompProps.titleColor)
-  const [videoUrls, setVideoUrls] = useState(defaultVideoCompProps.videoUrls)
+  const [segments, setSegments] = useState(defaultVideoCompProps.segments)
+
   const [audioUrl, setAudioUrl] = useState(defaultVideoCompProps.audioUrl)
 
   const inputProps: z.infer<typeof videoCompSchema> = useMemo(() => {
     return {
-      titleTexts: texts,
-      titleColor: color,
-      videoUrls,
+      segments,
       audioUrl,
     }
-  }, [texts, color])
+  }, [segments, audioUrl])
 
   return (
     <Box sx={{ width: '100%', height: '100%' }}>
@@ -56,21 +53,17 @@ const Video: NextPage = () => {
           sx={{
             display: 'grid',
             width: { md: '35%', xs: '100%' },
-            height: { xs: '100%', md: '85vh' },
+            minHeight: { xs: '100%', md: '85vh' },
             alignContent: { md: 'center' },
             justifyContent: { xs: 'center' },
           }}
         >
           <RenderVideoControls
-            texts={texts}
-            setTexts={setTexts}
-            videoUrls={videoUrls}
-            setVideoUrls={setVideoUrls}
+            segments={segments}
+            setSegments={setSegments}
             audioUrl={audioUrl}
             setAudioUrl={setAudioUrl}
             inputProps={inputProps}
-            color={color}
-            setColor={setColor}
           />
         </Grid>
       </Grid>
