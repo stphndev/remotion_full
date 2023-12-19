@@ -89,6 +89,7 @@ export const Text: React.FC<z.infer<typeof myTextSchema>> = ({ segments }) => {
                       textAlign: 'center',
                       width: '100%',
                       margin: 0,
+                      zIndex: 100,
                       transform: transform,
                     }}
                   >

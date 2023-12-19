@@ -78,7 +78,7 @@ export const RenderVideoControls: React.FC<{
             if (index === textIndex) {
               return {
                 ...segment,
-                text: segment.sentences.map((sentence, idx) => {
+                sentences: segment.sentences.map((sentence, idx) => {
                   if (idx === textidx) {
                     return e.target.value
                   }
