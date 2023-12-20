@@ -3,7 +3,7 @@ import { z } from 'zod'
 import { Text } from './Text'
 import { TopImage } from './TopImage'
 import { imageCompSchema } from '@/libs/types/constants'
-import '../index.css'
+import '../../assets/index.css'
 
 export const ImageComp: React.FC<z.infer<typeof imageCompSchema>> = ({
   titleTexts,

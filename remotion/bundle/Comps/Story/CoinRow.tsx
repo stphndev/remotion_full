@@ -14,7 +14,7 @@ const container: React.CSSProperties = {
   display: 'flex',
   alignItems: 'center',
   padding: '0 120px',
-  gap: 100,
+  justifyContent: 'space-between',
   width: '100%',
   color: '#fff',
 }
@@ -103,7 +103,7 @@ export const CoinRow = ({
     <div style={container}>
       <div style={{ display: 'flex', gap: '50px', alignItems: 'center' }}>
         <Img placeholder='Image' height={100} width={100} src={validImage} />
-        <p style={{ fontSize: '70px', width: '200px', overflow: 'hidden' }}>
+        <p style={{ fontSize: '70px', overflow: 'hidden', width: '300px' }}>
           {name}
         </p>
       </div>
@@ -111,7 +111,6 @@ export const CoinRow = ({
         style={{
           display: 'flex',
           alignItems: 'center',
-          width: '100%',
           gap: 8,
         }}
       >

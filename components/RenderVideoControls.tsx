@@ -11,7 +11,6 @@ import {
   AccordionDetails,
   AccordionSummary,
 } from '@mui/joy'
-import { useMemo, useState } from 'react'
 
 export const RenderVideoControls: React.FC<{
   segments: { title: string; sentences: string[]; videoUrl: string }[]
@@ -24,6 +23,7 @@ export const RenderVideoControls: React.FC<{
   setAudioUrl: React.Dispatch<React.SetStateAction<string>>
   setSegmentIndex: React.Dispatch<React.SetStateAction<number>>
   setSentenceIndex: React.Dispatch<React.SetStateAction<number>>
+  setSegmentLength: React.Dispatch<React.SetStateAction<number>>
   inputProps: z.infer<typeof videoCompSchema>
 }> = ({
   segments,
@@ -32,6 +32,7 @@ export const RenderVideoControls: React.FC<{
   setAudioUrl,
   setSegmentIndex,
   setSentenceIndex,
+  setSegmentLength,
   inputProps,
 }) => {
   const { renderMedia, state } = useVideoRendering(VIDEO_COMP_NAME, inputProps)
@@ -103,6 +104,16 @@ export const RenderVideoControls: React.FC<{
     segments[index].sentences.push('')
   }
 
+  const handleAddSegment = () => {
+    const newSegment = {
+      title: '',
+      sentences: [''],
+      videoUrl: '',
+    }
+    segments.push(newSegment)
+    setSegmentIndex(segments.length)
+  }
+
   return (
     <Box sx={{ width: '100%' }}>
       {state.status === 'init' ||
@@ -124,17 +135,25 @@ export const RenderVideoControls: React.FC<{
                       onChange={(e) => handleChange(e, index)}
                       sx={{ mb: 2 }}
                     />
-                    <Typography>Sentence(s)</Typography>
-                    {segment.sentences.length > 0 &&
-                      segment.sentences.map((sentence: string, idx: number) => (
-                        <Input
-                          key={idx}
-                          sx={{ mb: 2 }}
-                          placeholder='Add sentence'
-                          value={sentence}
-                          onChange={(e) => handleSentenceChange(e, index, idx)}
-                        />
-                      ))}
+                    <Accordion>
+                      <AccordionSummary>Sentence(s)</AccordionSummary>
+                      <AccordionDetails sx={{ p: 1 }}>
+                        {segment.sentences.length > 0 &&
+                          segment.sentences.map(
+                            (sentence: string, idx: number) => (
+                              <Input
+                                key={idx}
+                                sx={{ mb: 2 }}
+                                placeholder='Add sentence'
+                                value={sentence}
+                                onChange={(e) =>
+                                  handleSentenceChange(e, index, idx)
+                                }
+                              />
+                            )
+                          )}
+                      </AccordionDetails>
+                    </Accordion>
                     <Button onClick={() => handleAddSentence(index)}>
                       Add Sentence
                     </Button>
@@ -149,6 +168,7 @@ export const RenderVideoControls: React.FC<{
                   </Stack>
                 </Stack>
               ))}
+              <Button onClick={() => handleAddSegment()}>Create</Button>
             </AccordionDetails>
           </Accordion>
           <Accordion>

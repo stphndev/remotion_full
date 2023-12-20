@@ -20,6 +20,7 @@ const Video: NextPage = () => {
   const [audioUrl, setAudioUrl] = useState(defaultVideoCompProps.audioUrl)
   const [segmentIndex, setSegmentIndex] = useState(0)
   const [sentenceIndex, setSentenceIndex] = useState(0)
+  const [segmentLength, setSegentLength] = useState(segments.length)
 
   const inputProps: z.infer<typeof videoCompSchema> = useMemo(() => {
     return {
@@ -35,8 +36,6 @@ const Video: NextPage = () => {
     })
     return value
   }, [segments.length, segmentIndex, sentenceIndex])
-
-  console.log(segmentIndex)
 
   return (
     <Box sx={{ width: '100%', height: '100%' }}>
@@ -76,6 +75,7 @@ const Video: NextPage = () => {
             inputProps={inputProps}
             setSegmentIndex={setSegmentIndex}
             setSentenceIndex={setSentenceIndex}
+            setSegmentLength={setSegentLength}
           />
         </Grid>
       </Grid>
