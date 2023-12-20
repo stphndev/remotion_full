@@ -4,7 +4,7 @@ import { Text } from './Text'
 import { NewsUpdateDisplay } from './NewsUpdateDisplay'
 import { LogoSequence } from './LogoSequence'
 import { videoCompSchema } from '@/libs/types/constants'
-import font from './loadFont'
+import '../index.css'
 
 export const VideoComp: React.FC<z.infer<typeof videoCompSchema>> = ({
   segments,
@@ -23,7 +23,6 @@ export const VideoComp: React.FC<z.infer<typeof videoCompSchema>> = ({
         width: width,
         height: height,
         backgroundColor: 'black',
-        fontFamily: font.family,
       }}
     >
       <NewsUpdateDisplay segments={segments} audioUrl={audioUrl} />

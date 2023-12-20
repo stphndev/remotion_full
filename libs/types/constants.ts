@@ -37,7 +37,7 @@ export const defaultVideoCompProps: z.infer<typeof videoCompSchema> = {
         'Meanwhile, users rushed to buy a Solana phone, which comes with 30M BONK',
       ],
       videoUrl:
-        'https://static.videezy.com/system/resources/previews/000/048/258/original/383A9660-20200401_Stock_market_screen.mp4',
+        'https://static.videezy.com/system/resources/previews/000/044/047/original/NV-06.mp4',
     },
     {
       title: 'SafeMoon Bankruptcy Takes Ugly Turn',
@@ -46,7 +46,7 @@ export const defaultVideoCompProps: z.infer<typeof videoCompSchema> = {
         'The value of SFM plunged by 42% trading close to zero to the dismay of holders',
       ],
       videoUrl:
-        'https://static.videezy.com/system/resources/previews/000/055/918/original/4K-240.mp4',
+        'https://static.videezy.com/system/resources/previews/000/048/258/original/383A9660-20200401_Stock_market_screen.mp4',
     },
     {
       title: 'This Protocol Pays You to Test Its Network',
@@ -56,7 +56,7 @@ export const defaultVideoCompProps: z.infer<typeof videoCompSchema> = {
         'Namada has allocated 3% of its token supply to the testnet participants',
       ],
       videoUrl:
-        'https://static.videezy.com/system/resources/previews/000/055/210/original/4K-196.mp4',
+        'https://static.videezy.com/system/resources/previews/000/045/858/original/stock-futuristic.mp4',
     },
   ],
   audioUrl:
@@ -93,13 +93,25 @@ export const defaultStoryCompProps: z.infer<typeof storyCompSchema> = {
 export const imageCompSchema = z.object({
   titleTexts: z.string(),
   titleColor: zColor(),
+  imageUrl: z.string(),
 })
 
 export const defaultImageCompProps: z.infer<typeof imageCompSchema> = {
   titleTexts: `Coinbase beats all expectations with $674M in revenue for Q3 2023`,
   titleColor: '#000',
+  imageUrl:
+    'https://buffer.com/cdn-cgi/image/w=1000,fit=contain,q=90,f=auto/library/content/images/size/w1200/2023/10/free-images.jpg',
 }
 
+const duration = () => {
+  let value = 0
+  defaultVideoCompProps.segments.forEach((segment: any) => {
+    value += 90 + 90 * segment.sentences.length
+  })
+  return value
+}
+
+export const DURATION_IN_FRAMES = duration()
 export const WIDTH = 1080
 export const HEIGHT = 1920
 export const VIDEO_FPS = 30

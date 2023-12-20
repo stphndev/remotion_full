@@ -17,8 +17,9 @@ import { z } from 'zod'
 
 const Video: NextPage = () => {
   const [segments, setSegments] = useState(defaultVideoCompProps.segments)
-
   const [audioUrl, setAudioUrl] = useState(defaultVideoCompProps.audioUrl)
+  const [segmentIndex, setSegmentIndex] = useState(0)
+  const [sentenceIndex, setSentenceIndex] = useState(0)
 
   const inputProps: z.infer<typeof videoCompSchema> = useMemo(() => {
     return {
@@ -33,7 +34,9 @@ const Video: NextPage = () => {
       value += 90 + 90 * segment.sentences.length
     })
     return value
-  }, [segments])
+  }, [segments.length, segmentIndex, sentenceIndex])
+
+  console.log(segmentIndex)
 
   return (
     <Box sx={{ width: '100%', height: '100%' }}>
@@ -71,6 +74,8 @@ const Video: NextPage = () => {
             audioUrl={audioUrl}
             setAudioUrl={setAudioUrl}
             inputProps={inputProps}
+            setSegmentIndex={setSegmentIndex}
+            setSentenceIndex={setSentenceIndex}
           />
         </Grid>
       </Grid>

@@ -13,8 +13,8 @@ import { z } from 'zod'
 const container: React.CSSProperties = {
   display: 'flex',
   alignItems: 'center',
-  padding: '0 150px',
-  gap: 200,
+  padding: '0 120px',
+  gap: 100,
   width: '100%',
   color: '#fff',
 }
@@ -101,27 +101,29 @@ export const CoinRow = ({
 
   return (
     <div style={container}>
-      <div style={{ display: 'flex', gap: '100px', alignItems: 'center' }}>
+      <div style={{ display: 'flex', gap: '50px', alignItems: 'center' }}>
         <Img placeholder='Image' height={100} width={100} src={validImage} />
-        <p style={{ fontSize: '70px' }}>{name}</p>
+        <p style={{ fontSize: '70px', width: '200px', overflow: 'hidden' }}>
+          {name}
+        </p>
       </div>
       <div
         style={{
           display: 'flex',
           alignItems: 'center',
           width: '100%',
-          gap: 10,
+          gap: 8,
         }}
       >
         <span
           style={{
             display: 'flex',
-            justifyContent: 'flex-start',
+            justifyContent: 'flex-end',
             fontSize: '50px',
             opacity,
             transform: `scale(${scale})`,
-            inlineSize: '180px',
-            overflowWrap: 'break-word',
+            width: '250px',
+            overflow: 'hidden',
           }}
         >
           {valueChange}

@@ -16,14 +16,18 @@ import {
 export const RenderImageControls: React.FC<{
   text: string
   color: string
+  imageUrl: string
   setText: React.Dispatch<React.SetStateAction<string>>
   setColor: React.Dispatch<React.SetStateAction<string>>
+  setImageUrl: React.Dispatch<React.SetStateAction<string>>
   inputProps: z.infer<typeof imageCompSchema>
 }> = ({
   text,
   setText,
   color,
   setColor,
+  imageUrl,
+  setImageUrl,
   inputProps,
 }) => {
   const { renderMedia, state } = useImageRendering(IMAGE_COMP_NAME, inputProps)
@@ -38,6 +42,15 @@ export const RenderImageControls: React.FC<{
             <AccordionSummary>Text</AccordionSummary>
             <AccordionDetails sx={{ p: 1 }}>
               <Input value={text} onChange={(e) => setText(e.target.value)} />
+            </AccordionDetails>
+          </Accordion>
+          <Accordion>
+            <AccordionSummary>Image URL</AccordionSummary>
+            <AccordionDetails sx={{ p: 1 }}>
+              <Input
+                value={imageUrl}
+                onChange={(e) => setImageUrl(e.target.value)}
+              />
             </AccordionDetails>
           </Accordion>
           <Accordion>

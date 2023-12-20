@@ -9,7 +9,7 @@ import {
   imageCompSchema,
 } from '@/libs/types/constants'
 import { ImageComp } from '@/remotion/bundle/Comps/Image/ImageComp'
-import { Box, Typography, Grid } from '@mui/joy'
+import { Box, Grid } from '@mui/joy'
 import { Player } from '@remotion/player'
 import type { NextPage } from 'next'
 import React, { useMemo, useState } from 'react'
@@ -18,13 +18,15 @@ import { z } from 'zod'
 const Image: NextPage = () => {
   const [text, setText] = useState<string>(defaultImageCompProps.titleTexts)
   const [color, setColor] = useState(defaultImageCompProps.titleColor)
+  const [imageUrl, setImageUrl] = useState(defaultImageCompProps.imageUrl)
 
   const inputProps: z.infer<typeof imageCompSchema> = useMemo(() => {
     return {
       titleTexts: text,
       titleColor: color,
+      imageUrl,
     }
-  }, [text, color])
+  }, [text, color, imageUrl])
 
   return (
     <Box sx={{ width: '100%', height: '100%' }}>
@@ -62,6 +64,8 @@ const Image: NextPage = () => {
             inputProps={inputProps}
             color={color}
             setColor={setColor}
+            imageUrl={imageUrl}
+            setImageUrl={setImageUrl}
           />
         </Grid>
       </Grid>

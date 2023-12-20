@@ -1,13 +1,48 @@
-import { Box } from '@mui/joy'
-import { AbsoluteFill, Img, staticFile } from 'remotion'
+import { useMemo, useState } from 'react'
+import { AbsoluteFill, Img } from 'remotion'
+import { z } from 'zod'
 
-export const TopImage: React.FC = () => {
+const urlSchema = z.object({
+  imageUrl: z.string(),
+})
+
+export const TopImage: React.FC<z.infer<typeof urlSchema>> = ({ imageUrl }) => {
   const clipPath = `polygon(0 0, 100% 1%, 100% 48%, 0 79%)`
+  const [validImage, setValidImage] = useState(imageUrl)
+
+  const isValidImageUrl = (urlString: string) => {
+    try {
+      return Boolean(new URL(urlString))
+    } catch (e) {
+      return false
+    }
+  }
+
+  const handleValidImage = useMemo(() => {
+    if (isValidImageUrl(imageUrl)) {
+      setValidImage(imageUrl)
+    } else {
+      console.log('Invalid Image')
+    }
+  }, [imageUrl])
+
   return (
     <AbsoluteFill>
-      <Box style={{ position: 'relative', bottom: '1%', clipPath: clipPath }}>
-        <Img placeholder='Image' src={staticFile('celebration.jpg')} />
-      </Box>
+      <div
+        style={{
+          position: 'relative',
+          bottom: '1%',
+          clipPath: clipPath,
+          width: '100%',
+          height: '56%',
+        }}
+      >
+        <Img
+          placeholder='Image'
+          style={{ width: '100%', height: '100%' }}
+          src={validImage}
+        />
+      </div>
     </AbsoluteFill>
   )
 }
