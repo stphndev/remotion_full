@@ -1,0 +1,9 @@
+@font-face {
+    font-family: 'Handel Gothic',;
+    src: url('../../public/Handel\ Gothic\ D\ Regular.ttf') format('truetype');
+    font-display: swap;
+  }
+  
+  .main {
+    font-family: 'Handel Gothic';
+  }

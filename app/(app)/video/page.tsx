@@ -2,7 +2,6 @@
 
 import { RenderVideoControls } from '@/components/RenderVideoControls'
 import {
-  DURATION_IN_FRAMES,
   HEIGHT,
   VIDEO_FPS,
   WIDTH,
@@ -27,6 +26,14 @@ const Video: NextPage = () => {
       audioUrl,
     }
   }, [segments, audioUrl])
+
+  const DURATION_IN_FRAMES = useMemo(() => {
+    let value = 0
+    segments.forEach((segment: any) => {
+      value += 90 + 90 * segment.sentences.length
+    })
+    return value
+  }, [segments])
 
   return (
     <Box sx={{ width: '100%', height: '100%' }}>

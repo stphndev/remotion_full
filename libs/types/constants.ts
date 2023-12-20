@@ -100,15 +100,6 @@ export const defaultImageCompProps: z.infer<typeof imageCompSchema> = {
   titleColor: '#000',
 }
 
-const duration = () => {
-  let value = 0
-  defaultVideoCompProps.segments.forEach((segment: any) => {
-    value += 90 + 90 * segment.sentences.length
-  })
-  return value
-}
-
-export const DURATION_IN_FRAMES = duration()
 export const WIDTH = 1080
 export const HEIGHT = 1920
 export const VIDEO_FPS = 30

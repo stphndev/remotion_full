@@ -1,28 +1,10 @@
-import {
-  useVideoConfig,
-  delayRender,
-  staticFile,
-  continueRender,
-} from 'remotion'
+import { useVideoConfig } from 'remotion'
 import { z } from 'zod'
 import { Text } from './Text'
 import { NewsUpdateDisplay } from './NewsUpdateDisplay'
 import { LogoSequence } from './LogoSequence'
 import { videoCompSchema } from '@/libs/types/constants'
-
-const waitForFont = delayRender()
-const font = new FontFace(
-  'Handel Gothic',
-  `url('${staticFile('Handel Gothic D Regular.ttf')}') format('truetype')`
-)
-
-font
-  .load()
-  .then(() => {
-    document.fonts.add(font)
-    continueRender(waitForFont)
-  })
-  .catch((err) => console.log('Error loading font', err))
+import font from './loadFont'
 
 export const VideoComp: React.FC<z.infer<typeof videoCompSchema>> = ({
   segments,
@@ -32,6 +14,7 @@ export const VideoComp: React.FC<z.infer<typeof videoCompSchema>> = ({
 
   return (
     <div
+      className='main'
       style={{
         gap: '40px',
         position: 'absolute',
