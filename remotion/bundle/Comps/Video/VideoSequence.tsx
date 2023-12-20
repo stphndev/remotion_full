@@ -26,22 +26,24 @@ export const VideoSequence: React.FC<z.infer<typeof urlSchema>> = ({
         {segments.map((segment: any, index: number) => {
           let segmentInterval = interval + segment.sentences.length * interval
           return (
-            <>
-              <TransitionSeries.Sequence
-                key={index}
-                durationInFrames={segmentInterval}
-              >
-                <Video
-                  loop
-                  src={segment.videoUrl}
-                  style={{ height: height / 2, width: width }}
+            <TransitionSeries.Sequence
+              durationInFrames={segmentInterval}
+              key={index}
+            >
+              <TransitionSeries>
+                <TransitionSeries.Sequence durationInFrames={segmentInterval}>
+                  <Video
+                    loop
+                    src={segment.videoUrl}
+                    style={{ height: height / 2, width: width }}
+                  />
+                </TransitionSeries.Sequence>
+                <TransitionSeries.Transition
+                  presentation={slide()}
+                  timing={linearTiming({ durationInFrames: 10 })}
                 />
-              </TransitionSeries.Sequence>
-              <TransitionSeries.Transition
-                presentation={slide()}
-                timing={linearTiming({ durationInFrames: 10 })}
-              />
-            </>
+              </TransitionSeries>
+            </TransitionSeries.Sequence>
           )
         })}
       </TransitionSeries>
