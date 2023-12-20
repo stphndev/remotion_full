@@ -1,10 +1,9 @@
 @font-face {
-  font-family: "HandelGothic";
+  font-family: "HandelGothicSSSSS";
   src:
-  local("HandelGothic"),
     url('./Handel_Gothic_D_Regular.ttf') format('truetype'),
 }
 
 .main {
-  font-family: 'HandelGothic';
+  font-family: 'HandelGothicSSSSS';
 }

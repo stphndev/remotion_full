@@ -75,10 +75,13 @@ export const Text: React.FC<z.infer<typeof myTextSchema>> = ({ segments }) => {
       }}
     >
       <TransitionSeries>
-        {segments.map((segment) => {
+        {segments.map((segment, index: number) => {
           let segmentInterval = interval + segment.sentences.length * interval
           return (
-            <TransitionSeries.Sequence durationInFrames={segmentInterval}>
+            <TransitionSeries.Sequence
+              key={index}
+              durationInFrames={segmentInterval}
+            >
               <TransitionSeries>
                 <TransitionSeries.Sequence durationInFrames={90}>
                   <p
@@ -96,8 +99,8 @@ export const Text: React.FC<z.infer<typeof myTextSchema>> = ({ segments }) => {
                     {segment.title}
                   </p>
                 </TransitionSeries.Sequence>
-                {segment.sentences.map((sentence) => (
-                  <TransitionSeries.Sequence durationInFrames={90}>
+                {segment.sentences.map((sentence, idx) => (
+                  <TransitionSeries.Sequence key={idx} durationInFrames={90}>
                     <p
                       style={{
                         color: '#fff',
